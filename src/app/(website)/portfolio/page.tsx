@@ -1,21 +1,17 @@
-import PortfolioHero from "@/components/sections/portfolio/PortfolioHero";
-import PortfolioMetrics from "@/components/sections/portfolio/PortfolioMetrics";
-import PortfolioIndustries from "@/components/sections/portfolio/PortfolioIndustries";
-import PortfolioProjects from "@/components/sections/portfolio/PortfolioProjects";
-import PortfolioCta from "@/components/sections/portfolio/PortfolioCta";
-import { buildMetadata } from "@/lib/seo";
-import { pageSeo } from "@/content/page-seo";
-
-export const metadata = buildMetadata(pageSeo.portfolio);
-
-export default function PortfolioPage() {
-  return (
-    <div className="flex flex-col w-full">
-      <PortfolioHero />
-      <PortfolioMetrics />
-      <PortfolioIndustries />
-      <PortfolioProjects />
-      <PortfolioCta />
-    </div>
-  );
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { prisma } from '@/lib/db/prisma';
+import { getPortfolioSettings, publishedProjects } from '@/lib/portfolio/server';
+import { projectSchema, settingsSchema, platformLabels } from '@/lib/portfolio/schema';
+import { ProjectCard } from '@/components/portfolio/PortfolioView';
+import { buildMetadata } from '@/lib/seo';
+import '@/components/portfolio/portfolio.css';
+export const dynamic='force-dynamic';
+export async function generateMetadata(){let settings=settingsSchema.parse({});try{settings=await getPortfolioSettings();}catch{}return buildMetadata({title:settings.seoTitle,description:settings.seoDescription,path:'/portfolio',image:settings.ogImage,noIndex:settings.noIndex});}
+export default async function PortfolioPage({searchParams}:{searchParams:Promise<{q?:string;platform?:string;industry?:string;page?:string}>}){
+ const params=await searchParams,q=(params.q||'').slice(0,120),platform=Object.hasOwn(platformLabels,params.platform||'')?params.platform!:'',industry=(params.industry||'').slice(0,100),page=Math.max(1,Math.min(10000,Number.parseInt(params.page||'1')||1));
+ let settings=settingsSchema.parse({}),projects:ReturnType<typeof projectSchema.parse>[]=[],total=0,industries:string[]=[],counts:Record<string,number>={},unavailable=false;
+ try{settings=await getPortfolioSettings();const all=await prisma.portfolioProject.findMany({where:publishedProjects,select:{platforms:true,industry:true}});counts={all:all.length,...Object.fromEntries(Object.keys(platformLabels).map(key=>[key,all.filter(project=>project.platforms.includes(key)).length]))};industries=[...new Set(all.map(project=>project.industry).filter(Boolean))].sort();const where={...publishedProjects,...(platform?{platforms:{has:platform}}:{}),...(industry?{industry}:{}),...(q?{OR:[{title:{contains:q,mode:'insensitive' as const}},{summary:{contains:q,mode:'insensitive' as const}},{clientName:{contains:q,mode:'insensitive' as const}}]}:{})};const [records,count]=await Promise.all([prisma.portfolioProject.findMany({where,orderBy:[{featured:'desc'},{order:'asc'},{publishedAt:'desc'}],skip:(page-1)*9,take:9}),prisma.portfolioProject.count({where})]);projects=records.map(project=>projectSchema.parse(project));total=count;}catch{unavailable=true;}
+ function url(p:number,key=platform){const query=new URLSearchParams();if(q)query.set('q',q);if(key)query.set('platform',key);if(industry)query.set('industry',industry);if(p>1)query.set('page',String(p));return `/portfolio${query.size?'?'+query:''}`;}
+ return <div className="pf"><div className="pf-wrap"><header className="pf-list-head"><p className="pf-eyebrow">Portfolio / Our work</p><h1>{settings.heading}</h1><p className="pf-summary">{settings.introduction}</p><Link className="pf-link" href="/contact#contact-form">Discuss your project <ArrowUpRight size={17}/></Link></header><nav aria-label="Filter projects by platform" className="pf-filters"><Link href={url(1,'')} aria-current={!platform?'page':undefined}>All projects {counts.all!==undefined&&`(${counts.all})`}</Link>{Object.entries(platformLabels).map(([key,label])=><Link key={key} href={url(1,key)} aria-current={platform===key?'page':undefined}>{label} {counts[key]!==undefined&&`(${counts[key]})`}</Link>)}</nav><form action="/portfolio" className="pf-search">{platform&&<input type="hidden" name="platform" value={platform}/>}<input aria-label="Search projects" name="q" defaultValue={q} placeholder="Search projects or clients…"/><select aria-label="Filter by industry" name="industry" defaultValue={industry}><option value="">All industries</option>{industries.map(value=><option key={value}>{value}</option>)}</select><button className="pf-button" type="submit">Search</button></form>{unavailable?<p role="status" className="pf-empty">Projects are temporarily unavailable. Please try again later.</p>:projects.length?<><div className="pf-grid">{projects.map(project=><ProjectCard key={project.slug} project={project}/>)}</div><nav className="pf-pages" aria-label="Project pages">{page>1&&<Link href={url(page-1)}>Previous</Link>}<span>Page {page} of {Math.max(1,Math.ceil(total/9))}</span>{page*9<total&&<Link href={url(page+1)}>Next</Link>}</nav></>:<div className="pf-empty"><h2>{q||platform||industry?'No matching projects.':'Our project stories are coming soon.'}</h2><p>{q||platform||industry?'Try another filter or explore all projects.':'Talk to our team about a deployment for your organisation.'}</p>{(q||platform||industry)&&<Link className="pf-link" href="/portfolio">Clear filters</Link>}</div>}<section className="pf-cta"><h2>Let’s build your next project.</h2><Link className="pf-button" href="/contact#contact-form">Talk to our team <ArrowUpRight size={17}/></Link></section></div></div>;
 }

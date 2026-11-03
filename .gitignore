@@ -48,3 +48,6 @@ next-env.d.ts
 
 # Recovery snapshots for article illustration updates
 /work/blog-image-backups/
+
+# Recovery snapshots for portfolio imports
+/work/portfolio-import-backups/

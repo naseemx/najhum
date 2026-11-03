@@ -1,5 +1,6 @@
 "use client";
 
+import PortfolioVisibilityButton from '@/components/admin/PortfolioVisibilityButton';
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -295,6 +296,7 @@ export default function SolutionsList({ initialFilter = "all" }: { initialFilter
                     })}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" onClick={(e) => e.stopPropagation()}>
+                    <PortfolioVisibilityButton id={solution.id} kind="solutions" hidden={solution.isDraft}/>
                     <button
                       type="button"
                       onClick={(e) => handleDelete(e, solution)}

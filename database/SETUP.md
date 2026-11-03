@@ -94,3 +94,16 @@ If managing migration history with Prisma, use `prisma migrate deploy` through y
 normal workflow instead of running the SQL separately. After manual SQL in a
 Prisma-managed database, mark `20261027000000_add_blog` applied with
 `prisma migrate resolve --applied 20261027000000_add_blog` before subsequent migrations.
+
+
+## Dynamic portfolio
+
+Run `database/portfolio.sql` in the Supabase SQL Editor before deploying this version, then run `npx prisma generate`. It creates PortfolioProject and PortfolioSettings without inserting sample projects or changing existing tables. A matching Prisma migration is in `prisma/migrations/20261031000000_add_portfolio/`. If you run SQL manually, record the migration as applied with your normal Prisma migration workflow rather than running a second conflicting migration.
+
+Create projects under `/admin/portfolio`; drafts and admin previews stay private. Publishing requires the project title/URL, summary, public client name, industry, at least one platform, a cover and image description, and solution content. Galleries support up to 100 images per project, assigned to challenge, solution, results or the final gallery. Captions are optional; image descriptions are required for publishing. File uploads reuse the existing authenticated R2 upload endpoint. Uploaded images are not deleted from storage when a project or image reference is removed, to avoid breaking shared media.
+
+The public portfolio and project pages use database content only. Before the SQL is applied, the portfolio listing reports temporary unavailability and admin reports the setup instruction. No existing client names or project outcomes from the reference are seeded. Company-wide deployment statistics are intentionally not displayed without verified data. Solution galleries use the existing CUSTOM section JSON and need no additional SQL.
+
+### Portfolio case-study design update
+
+For installations with existing portfolio tables, run `database/portfolio-design-update.sql` in the Supabase SQL editor. It adds only the `caseStudy` JSONB column, with an empty-object default, and preserves existing projects. The new admin controls hero copy, client facts, section headings/callouts, pain points, solution components, architecture steps, key wins, comparison charts, gallery text, and the contact panel. Existing narrative content remains compatible. Dashboard, architecture and mobile screenshots use the existing gallery JSON with their new placement choices. No new tables or permissions are required.

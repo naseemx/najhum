@@ -1,4 +1,4 @@
-export type SearchCategory = 'Pages' | 'Platforms' | 'Solutions' | 'Products' | 'Blogs';
+export type SearchCategory = 'Pages' | 'Platforms' | 'Solutions' | 'Products' | 'Blogs' | 'Portfolio';
 export interface SearchEntry { title: string; href: string; description: string; category: SearchCategory; keywords?: string }
 export const recommendedPages: SearchEntry[] = [
   { title: 'Solutions', href: '/solutions', description: 'Explore applications across industries and find the right solution.', category: 'Pages', keywords: 'facilities hospitality hotel cold storage industrial energy monitoring' },
@@ -7,6 +7,7 @@ export const recommendedPages: SearchEntry[] = [
   { title: 'EVOLTICS', href: '/platforms/evoltics', description: 'EV charging management, infrastructure, and smart mobility.', category: 'Platforms', keywords: 'electric vehicle ev charger charging parking ocpp' },
   { title: 'cropifAI', href: '/platforms/cropifai', description: 'Precision agriculture and automated growing environments.', category: 'Platforms', keywords: 'agriculture farming crop greenhouse irrigation climate' },
   { title: 'Products', href: '/products', description: 'Browse connected devices, sensors, and platform products.', category: 'Pages', keywords: 'hardware sensors gateways equipment' },
+  { title: 'Portfolio', href: '/portfolio', description: 'Explore projects and case studies across Najhum platforms.', category: 'Pages', keywords: 'portfolio projects clients case studies deployments' },
   { title: 'Book a demo', href: '/contact', description: 'Explore our platforms and arrange a demonstration.', category: 'Pages', keywords: 'dashboard live demo demonstration' },
   { title: 'Contact our team', href: '/contact', description: 'Discuss a project, request support, or get in touch.', category: 'Pages', keywords: 'contact email phone address support sales quotation dubai uae' },
   { title: 'About Najhum', href: '/about', description: 'Meet Najhum Technologies and learn about our approach.', category: 'Pages', keywords: 'company team about najhum' },

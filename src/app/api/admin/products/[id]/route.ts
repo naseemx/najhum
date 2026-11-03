@@ -1,4 +1,7 @@
-import { NextResponse } from 'next/server';
+import {requireAdmin,requireSameOrigin} from '@/lib/auth/require-admin';
+import {handleApiError} from '@/lib/utils/api-error';
+import {revalidatePath} from 'next/cache';
+import { type NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db/prisma';
 import { deleteFromR2 } from '@/lib/storage/r2';
 
@@ -76,4 +79,15 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     console.error('Failed to delete product:', error);
     return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
   }
+}
+export async function PATCH(request:NextRequest,{params}:{params:Promise<{id:string}>}){
+ try{
+  await requireAdmin(request);requireSameOrigin(request);
+  const {isDraft}=await request.json();
+  if(typeof isDraft!=='boolean')return NextResponse.json({error:'Choose whether to hide this product.'},{status:400});
+  const product=await prisma.product.update({where:{id:(await params).id},data:{isDraft}});
+  for(const path of ['/products','/admin/products','/sitemap.xml'])revalidatePath(path);
+  revalidatePath('/products/[slug]','page');revalidatePath('/solutions/[slug]','page');revalidatePath('/portfolio/[slug]','page');
+  return NextResponse.json({product});
+ }catch(error){return handleApiError(error);}
 }

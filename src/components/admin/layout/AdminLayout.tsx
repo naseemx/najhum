@@ -18,6 +18,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       ? "Overview"
       : pathname.startsWith("/admin/customers")
       ? "Customers & Leads"
+      : pathname.startsWith("/admin/portfolio")
+      ? pathname.endsWith("/edit") ? "Edit project" : pathname.endsWith("/new") ? "Create project" : "Portfolio"
       : pathname.startsWith("/admin/products")
       ? "Products"
       : pathname.startsWith("/admin/blogs")

@@ -171,12 +171,12 @@ export interface CustomContent {
   heading: string;
   bodyHtml: string;
   rawData?: unknown;
-  layout?: 'rich-text' | 'faq' | 'case-studies' | 'resources' | 'statistics' | 'image-cards' | 'overlay-cards' | 'image-bento' | 'split-stories' | 'video-cards' | 'table' | 'faded-image-cards' | 'image-banner';
+  layout?: 'gallery' | 'rich-text' | 'faq' | 'case-studies' | 'resources' | 'statistics' | 'image-cards' | 'overlay-cards' | 'image-bento' | 'split-stories' | 'video-cards' | 'table' | 'faded-image-cards' | 'image-banner';
   eyebrow?: string;
   theme?: 'light' | 'soft' | 'dark';
   headingAlign?: 'left' | 'center';
   mediaRatio?: '16:9' | '4:3' | '1:1' | '3:4';
-  columns?: 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4;
   backgroundImage?: string;
   imageAlt?: string;
   overlayStyle?: 'full' | 'side';

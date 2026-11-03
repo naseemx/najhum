@@ -153,3 +153,55 @@ model BlogSettings {
   ogImage        String  @default("")
   noIndex        Boolean @default(false)
 }
+
+model PortfolioProject {
+  id String @id @default(cuid())
+  slug String @unique
+  title String
+  summary String @default("")
+  clientName String @default("")
+  clientLogo String @default("")
+  clientOverview String @default("")
+  industry String @default("")
+  location String @default("")
+  year String @default("")
+  duration String @default("")
+  deliveryModel String @default("")
+  platforms String[] @default([])
+  solutionIds String[] @default([])
+  productIds String[] @default([])
+  coverImage String @default("")
+  coverAlt String @default("")
+  challenge String @default("")
+  solution String @default("")
+  results String @default("")
+  technology Json @default("[]")
+  outcomes Json @default("[]")
+  gallery Json @default("[]")
+  galleryLayout String @default("grid")
+  caseStudy Json @default("{}")
+  testimonialQuote String @default("")
+  testimonialName String @default("")
+  testimonialRole String @default("")
+  documentUrl String @default("")
+  seoTitle String @default("")
+  seoDescription String @default("")
+  ogImage String @default("")
+  noIndex Boolean @default(false)
+  featured Boolean @default(false)
+  order Int @default(0)
+  isDraft Boolean @default(true)
+  publishedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([isDraft, publishedAt])
+}
+model PortfolioSettings {
+  id String @id @default("main")
+  heading String @default("Connected infrastructure. Proven in practice.")
+  introduction String @default("Explore the projects connecting people, assets, and operations.")
+  seoTitle String @default("Projects & Case Studies | Najhum")
+  seoDescription String @default("Explore Najhum projects across industrial IoT, EV charging and precision agriculture.")
+  ogImage String @default("")
+  noIndex Boolean @default(false)
+}

@@ -1,0 +1,13 @@
+.journal-toc { border: 1px solid var(--theme-border); border-left: 3px solid var(--theme-primary); border-radius: 1rem; background: linear-gradient(135deg, var(--theme-primary-light), var(--theme-surface-alt)); margin-bottom: 3rem; padding: 1.5rem; }
+.journal-toc summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: .875rem; font-weight: 700; cursor: pointer; list-style: none; }
+.journal-toc summary::-webkit-details-marker { display: none; }
+.journal-toc summary span { display: flex; gap: .65rem; align-items: center; }
+.journal-toc details[open] summary > svg { transform: rotate(180deg); }
+.journal-toc ol { list-style: none; margin-top: 1rem; padding: 0; }
+.journal-toc li + li { border-top: 1px solid var(--theme-border); }
+.journal-toc a { display: block; padding: .7rem .25rem; color: var(--theme-muted); font-size: .8125rem; line-height: 1.6; transition: color .2s, padding-left .2s; }
+.journal-toc a:hover, .journal-toc a[aria-current=location] { color: var(--theme-primary); padding-left: .6rem; }
+.journal-toc-subsection { padding-left: 1rem; }
+@media (max-width: 640px) {
+ .journal-toc { padding: 1.25rem; }
+}

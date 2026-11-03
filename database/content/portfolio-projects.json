@@ -1,0 +1,696 @@
+{
+  "source": "https://temppro-nine.vercel.app/portfolio.html",
+  "detailSource": "https://temppro-nine.vercel.app/portfolio-template.html",
+  "note": "Source project titles and scopes imported from the reference listing. Nokia has expanded editorial content based on that scope; unverified outcomes and testimonials are omitted. Images are AI-generated illustrations.",
+  "projects": [
+    {
+      "title": "Smart FM — Nokia HQ Dubai",
+      "slug": "smart-fm-nokia-hq-dubai",
+      "summary": "Energy, air quality, and equipment monitoring for Nokia HQ Dubai—connected through IoTRICs and LoRaWAN.",
+      "clientName": "Nokia",
+      "industry": "Facilities",
+      "location": "Dubai, UAE",
+      "platforms": [
+        "iotrics"
+      ],
+      "coverImage": "/images/portfolio/smart-fm-nokia-hq-dubai/cover-v1.webp",
+      "coverAlt": "Contemporary corporate office building in Dubai",
+      "solution": "<p>The project connects energy sub-metering, air-quality monitoring, and predictive maintenance through IoTRICs, using LoRaWAN connectivity.</p><h3>A practical workflow</h3><ol><li>Review readings in the context of the monitored asset or space.</li><li>Investigate exceptions and decide on the appropriate response.</li><li>Record the response and continue reviewing the trend.</li></ol>",
+      "technology": [
+        {
+          "label": "Platform",
+          "items": "IoTRICs"
+        },
+        {
+          "label": "Energy",
+          "items": "Electrical sub-metering"
+        },
+        {
+          "label": "Indoor environment",
+          "items": "Indoor air-quality monitoring"
+        },
+        {
+          "label": "Maintenance",
+          "items": "Predictive maintenance"
+        },
+        {
+          "label": "Connectivity",
+          "items": "LoRaWAN®"
+        }
+      ],
+      "seoTitle": "Smart FM at Nokia HQ Dubai | Najhum",
+      "seoDescription": "Explore the Nokia HQ Dubai smart facilities project scope: IoTRICs energy sub-metering, indoor air-quality monitoring, predictive maintenance, and LoRaWAN.",
+      "ogImage": "/images/portfolio/smart-fm-nokia-hq-dubai/cover-v1.webp",
+      "isDraft": false,
+      "featured": true,
+      "order": 0,
+      "clientOverview": "The Nokia HQ Dubai project brings energy sub-metering, indoor air-quality monitoring, and predictive maintenance into a connected facilities-management scope. IoTRICs and LoRaWAN link these monitoring areas to the everyday priorities of the facilities team.",
+      "challenge": "<p>Managing corporate facilities means balancing energy use, occupant comfort, and equipment reliability. This project focuses on making those signals useful for day-to-day facilities decisions.</p>",
+      "results": "<p>The project focuses on more detailed energy visibility, indoor environmental awareness, and maintenance planning.</p>",
+      "gallery": [
+        {
+          "alt": "Pumps and pipework in a building plant room",
+          "url": "/images/blogs/smart-building/detail-1-v1.webp",
+          "caption": "Building services and maintenance",
+          "section": "challenge"
+        },
+        {
+          "alt": "Environmental sensor in a corporate office",
+          "url": "/images/blogs/smart-building/detail-2-v1.webp",
+          "caption": "Indoor environmental monitoring",
+          "section": "solution"
+        },
+        {
+          "alt": "Contemporary office building in Dubai",
+          "url": "/images/portfolio/smart-fm-nokia-hq-dubai/cover-v1.webp",
+          "caption": "Corporate facilities",
+          "section": "gallery"
+        },
+        {
+          "url": "/images/blogs/energy-monitoring/detail-1-v1.webp",
+          "alt": "Electrical monitoring equipment",
+          "caption": "Electrical monitoring and sub-metering",
+          "section": "gallery"
+        },
+        {
+          "url": "/images/blogs/energy-monitoring/detail-2-v1.webp",
+          "alt": "Energy monitoring in a building services setting",
+          "caption": "Building energy monitoring",
+          "section": "gallery"
+        }
+      ],
+      "solutionIds": [
+        "cmvahdtv2000265pfw2bs5v4q",
+        "cmvaj55xr000p53pftpac2ogp"
+      ],
+      "galleryLayout": "grid",
+      "caseStudy": {
+        "ctaText": "Discuss your energy, environmental, and maintenance priorities with our team.",
+        "keyWins": [
+          {
+            "icon": "sensor",
+            "title": "Understand energy use",
+            "description": "Review monitored loads in context to help prioritise further investigation."
+          },
+          {
+            "icon": "sensor",
+            "title": "Keep indoor conditions visible",
+            "description": "Include environmental information in everyday facilities reviews."
+          },
+          {
+            "icon": "sensor",
+            "title": "Inform maintenance planning",
+            "description": "Use monitoring trends to guide inspection priorities."
+          }
+        ],
+        "logoSize": "medium",
+        "heroTitle": "Smart facilities.",
+        "showFacts": true,
+        "components": [
+          {
+            "icon": "energy",
+            "title": "Energy sub-metering",
+            "description": "Review monitored electrical loads and consumption patterns to identify operating periods or changes that warrant investigation."
+          },
+          {
+            "icon": "air",
+            "title": "Indoor air quality",
+            "description": "Consider air-quality readings alongside building operation to understand when an occupied space needs closer attention."
+          },
+          {
+            "icon": "settings",
+            "title": "Predictive maintenance",
+            "description": "Use equipment information to inform inspections and maintenance planning for monitored assets."
+          },
+          {
+            "icon": "network",
+            "title": "LoRaWAN connectivity",
+            "description": "Connect field measurements to IoTRICs using the wireless-connectivity approach identified for this project."
+          }
+        ],
+        "ctaHeading": "Bring your facilities [into focus].",
+        "galleryFit": "contain",
+        "heroAccent": "A connected approach.",
+        "painPoints": [
+          {
+            "icon": "sensor",
+            "title": "Energy visibility",
+            "description": "Understand the monitored loads beyond a single overall consumption figure."
+          },
+          {
+            "icon": "sensor",
+            "title": "Indoor environments",
+            "description": "Bring air-quality information into the review of occupied spaces."
+          },
+          {
+            "icon": "sensor",
+            "title": "Equipment attention",
+            "description": "Use monitoring information to support maintenance investigation and planning."
+          },
+          {
+            "icon": "sensor",
+            "title": "Connected information",
+            "description": "Relate readings to the facilities and assets they describe."
+          }
+        ],
+        "clientFacts": [
+          {
+            "label": "Location",
+            "value": "Dubai, UAE"
+          },
+          {
+            "label": "Industry",
+            "value": "Facilities"
+          },
+          {
+            "label": "Platform",
+            "value": "IoTRICs"
+          }
+        ],
+        "gallerySize": "medium",
+        "outcomeMode": "objectives",
+        "coverCaption": "",
+        "galleryIntro": "Illustrative imagery for the project theme. These images do not show the actual Nokia deployment.",
+        "resultsIntro": "",
+        "clientDisplay": "logo",
+        "solutionIntro": "",
+        "challengeIntro": "",
+        "comparisonNote": "",
+        "comparisonRows": [],
+        "comparisonUnit": "",
+        "galleryHeading": "The facilities-management context.",
+        "hiddenSections": [],
+        "logoMobileSize": "small",
+        "resultsHeading": "What the project [aims to enable].",
+        "showSectionNav": true,
+        "comparisonTitle": "",
+        "overviewHeading": "Smart facilities at [Nokia HQ Dubai].",
+        "solutionCallout": "Energy, indoor air quality, and maintenance in one connected scope.",
+        "solutionHeading": "Connected monitoring for [everyday operations].",
+        "technologyIntro": "The platform, monitoring areas, and connectivity in this project.",
+        "testimonialNote": "The project scope brings energy, indoor air quality and equipment monitoring into one facilities workflow. A client-approved testimonial has not been supplied.",
+        "challengeCallout": "Connect each reading to a space, an asset, and a decision.",
+        "challengeHeading": "A clearer view of [building performance].",
+        "architectureSteps": [
+          {
+            "icon": "sensor",
+            "title": "Measure",
+            "description": "Energy, air quality & equipment"
+          },
+          {
+            "icon": "network",
+            "title": "Connect",
+            "description": "LoRaWAN® connectivity"
+          },
+          {
+            "icon": "cloud",
+            "title": "Understand",
+            "description": "IoTRICs monitoring"
+          },
+          {
+            "icon": "settings",
+            "title": "Review",
+            "description": "Facilities-management decisions"
+          }
+        ],
+        "architectureTitle": "Monitoring approach",
+        "comparisonContext": [
+          {
+            "after": "The scope includes electrical sub-metering to review monitored loads in greater detail.",
+            "label": "Energy",
+            "before": "Sub-metering baseline readings were not supplied."
+          },
+          {
+            "after": "The scope includes indoor air-quality monitoring for occupied spaces.",
+            "label": "Indoor air quality",
+            "before": "Pre-project indoor air-quality readings were not supplied."
+          },
+          {
+            "after": "Predictive maintenance monitoring is intended to support investigation and planning.",
+            "label": "Maintenance",
+            "before": "Maintenance response times and equipment condition baselines were not supplied."
+          }
+        ],
+        "heroClientDisplay": "name",
+        "technologyHeading": "From field readings to [operational insight].",
+        "testimonialHeading": ""
+      },
+      "clientLogo": "/logo/client%20logos/nokia-com-wordmark.png",
+      "publishedAt": "2026-10-31T18:59:55.502Z"
+    },
+    {
+      "title": "Public EV Charging Network",
+      "slug": "public-ev-charging-network-dewa",
+      "summary": "EVOLTICS end-to-end — CPO licensing, CPMS software, AC/DC hardware, and full regulatory approvals.",
+      "clientName": "DEWA",
+      "industry": "EV Charging",
+      "location": "UAE",
+      "platforms": [
+        "evoltics"
+      ],
+      "coverImage": "/images/portfolio/public-ev-charging-network-dewa/cover-v1.webp",
+      "coverAlt": "AI-generated illustration of a public electric vehicle charging plaza with AC and DC charging equipment.",
+      "solution": "<p>EVOLTICS end-to-end — CPO licensing, CPMS software, AC/DC hardware, and full regulatory approvals.</p><p><em>Image: AI-generated illustration of the project theme, not a photograph of the actual deployment.</em></p>",
+      "technology": [
+        {
+          "label": "Project technologies",
+          "items": "CPMS, OCPP, CPO Licensing"
+        }
+      ],
+      "seoTitle": "Public EV Charging Network | Najhum",
+      "seoDescription": "EVOLTICS end-to-end — CPO licensing, CPMS software, AC/DC hardware, and full regulatory approvals.",
+      "ogImage": "/images/portfolio/public-ev-charging-network-dewa/cover-v1.webp",
+      "isDraft": true,
+      "featured": false,
+      "order": 1
+    },
+    {
+      "title": "Smart Irrigation & Precision Farming",
+      "slug": "smart-irrigation-precision-farming-aramtec",
+      "summary": "Full CropifAI stack — soil sensors, automated valve control, yield prediction, and supply chain traceability.",
+      "clientName": "Aramtec",
+      "industry": "Agriculture",
+      "location": "UAE",
+      "platforms": [
+        "cropifai"
+      ],
+      "coverImage": "/images/portfolio/smart-irrigation-precision-farming-aramtec/cover-v1.webp",
+      "coverAlt": "AI-generated illustration of a precision agriculture field with drip irrigation and a soil sensor.",
+      "solution": "<p>Full CropifAI stack — soil sensors, automated valve control, yield prediction, and supply chain traceability.</p><p><em>Image: AI-generated illustration of the project theme, not a photograph of the actual deployment.</em></p>",
+      "technology": [
+        {
+          "label": "Project technologies",
+          "items": "Soil Sensors, AI/ML, LoRaWAN®"
+        }
+      ],
+      "seoTitle": "Smart Irrigation & Precision Farming | Najhum",
+      "seoDescription": "Full CropifAI stack — soil sensors, automated valve control, yield prediction, and supply chain traceability.",
+      "ogImage": "/images/portfolio/smart-irrigation-precision-farming-aramtec/cover-v1.webp",
+      "isDraft": true,
+      "featured": false,
+      "order": 2
+    },
+    {
+      "title": "Smart Building & Energy Monitoring",
+      "slug": "smart-building-energy-monitoring-dubai-mall",
+      "summary": "Sub-metering, indoor air quality, and waste management intelligence across 500+ retail units.",
+      "clientName": "The Dubai Mall",
+      "industry": "Retail",
+      "location": "Dubai, UAE",
+      "platforms": [
+        "iotrics"
+      ],
+      "coverImage": "/images/portfolio/smart-building-energy-monitoring-dubai-mall/cover-v1.webp",
+      "coverAlt": "Shopping centre atrium and storefronts",
+      "solution": "<p>The IoTRICs scope combines electrical sub-metering, indoor air-quality monitoring and waste management intelligence across the retail environment.</p>",
+      "technology": [
+        {
+          "label": "Platform",
+          "items": "IoTRICs"
+        },
+        {
+          "label": "Energy sub-metering",
+          "items": "Review monitored electrical consumption by unit or load."
+        },
+        {
+          "label": "Indoor air quality",
+          "items": "Review indoor conditions alongside day-to-day facilities activity."
+        },
+        {
+          "label": "Waste management",
+          "items": "Use waste monitoring information to support operational planning."
+        }
+      ],
+      "seoTitle": "Smart Building & Energy Monitoring | Najhum",
+      "seoDescription": "Sub-metering, indoor air quality, and waste management intelligence across 500+ retail units.",
+      "ogImage": "/images/portfolio/smart-building-energy-monitoring-dubai-mall/cover-v1.webp",
+      "isDraft": false,
+      "featured": false,
+      "order": 3,
+      "publishedAt": "2026-10-31T18:59:56.490Z",
+      "clientLogo": "",
+      "clientOverview": "The Dubai Mall case study covers smart building and energy monitoring across more than 500 retail units, as described in the supplied brief. The scope includes sub-metering, indoor air quality and waste management.",
+      "challenge": "<p>A large retail site needs a practical way to review energy consumption, indoor conditions and waste operations across many units. The project focuses on making those signals useful to facilities teams.</p>",
+      "results": "<p>The objectives below describe the intended operational benefits. Verified post-deployment measurements were not supplied.</p>",
+      "gallery": [
+        {
+          "url": "/images/blogs/smart-building/detail-1-v1.webp",
+          "alt": "Pumps and pipework in a plant room",
+          "caption": "Building services and maintenance",
+          "section": "challenge"
+        },
+        {
+          "url": "/images/blogs/smart-building/detail-2-v1.webp",
+          "alt": "Environmental sensor in an office",
+          "caption": "Indoor environmental monitoring",
+          "section": "solution"
+        },
+        {
+          "url": "/images/blogs/energy-monitoring/detail-1-v1.webp",
+          "alt": "Electrical monitoring equipment",
+          "caption": "Electrical monitoring",
+          "section": "gallery"
+        },
+        {
+          "url": "/images/blogs/energy-monitoring/detail-2-v1.webp",
+          "alt": "Building energy monitoring equipment",
+          "caption": "Energy monitoring context",
+          "section": "gallery"
+        }
+      ],
+      "galleryLayout": "grid",
+      "solutionIds": [
+        "cmvahdtv2000265pfw2bs5v4q",
+        "cmvaj55xr000p53pftpac2ogp"
+      ],
+      "caseStudy": {
+        "hiddenSections": [],
+        "heroTitle": "Retail facilities.",
+        "heroAccent": "Connected monitoring.",
+        "coverCaption": "",
+        "clientDisplay": "both",
+        "overviewHeading": "About [The Dubai Mall].",
+        "challengeHeading": "Make building signals [easier to review].",
+        "challengeIntro": "A large retail site needs a practical way to review energy consumption, indoor conditions and waste operations across many units. The project focuses on making those signals useful to facilities teams.",
+        "painPoints": [
+          {
+            "title": "Energy sub-metering",
+            "description": "Review monitored electrical consumption by unit or load.",
+            "icon": "energy"
+          },
+          {
+            "title": "Indoor air quality",
+            "description": "Review indoor conditions alongside day-to-day facilities activity.",
+            "icon": "air"
+          },
+          {
+            "title": "Waste management",
+            "description": "Use waste monitoring information to support operational planning.",
+            "icon": "settings"
+          }
+        ],
+        "solutionHeading": "Connected facilities [monitoring].",
+        "solutionCallout": "The IoTRICs scope combines electrical sub-metering, indoor air-quality monitoring and waste management intelligence across the retail environment.",
+        "components": [
+          {
+            "title": "Energy sub-metering",
+            "description": "Review monitored electrical consumption by unit or load.",
+            "icon": "energy"
+          },
+          {
+            "title": "Indoor air quality",
+            "description": "Review indoor conditions alongside day-to-day facilities activity.",
+            "icon": "air"
+          },
+          {
+            "title": "Waste management",
+            "description": "Use waste monitoring information to support operational planning.",
+            "icon": "settings"
+          }
+        ],
+        "technologyHeading": "Technology [in scope].",
+        "technologyIntro": "The platform and monitoring areas described in the project brief.",
+        "architectureTitle": "Monitoring approach",
+        "architectureSteps": [
+          {
+            "title": "Measure",
+            "description": "Collect readings from the monitoring areas in scope.",
+            "icon": "sensor"
+          },
+          {
+            "title": "Connect",
+            "description": "Bring the readings into the IoTRICs monitoring scope.",
+            "icon": "network"
+          },
+          {
+            "title": "Understand",
+            "description": "Review signals in the context of the monitored asset or space.",
+            "icon": "cloud"
+          },
+          {
+            "title": "Review",
+            "description": "Use that context to guide facilities investigations.",
+            "icon": "settings"
+          }
+        ],
+        "outcomeMode": "objectives",
+        "resultsHeading": "What the project [aims to enable].",
+        "keyWins": [
+          {
+            "title": "Energy sub-metering",
+            "description": "Review monitored electrical consumption by unit or load.",
+            "icon": "energy"
+          },
+          {
+            "title": "Indoor air quality",
+            "description": "Review indoor conditions alongside day-to-day facilities activity.",
+            "icon": "air"
+          },
+          {
+            "title": "Waste management",
+            "description": "Use waste monitoring information to support operational planning.",
+            "icon": "settings"
+          }
+        ],
+        "comparisonContext": [
+          {
+            "label": "Energy sub-metering",
+            "before": "A verified pre-project baseline was not supplied.",
+            "after": "Review monitored electrical consumption by unit or load."
+          },
+          {
+            "label": "Indoor air quality",
+            "before": "A verified pre-project baseline was not supplied.",
+            "after": "Review indoor conditions alongside day-to-day facilities activity."
+          },
+          {
+            "label": "Waste management",
+            "before": "A verified pre-project baseline was not supplied.",
+            "after": "Use waste monitoring information to support operational planning."
+          }
+        ],
+        "galleryHeading": "Facilities monitoring [in pictures].",
+        "galleryIntro": "Examples of the building services and monitoring areas covered by this case study.",
+        "galleryFit": "contain",
+        "gallerySize": "medium",
+        "testimonialHeading": "Client perspective",
+        "testimonialNote": "A client-approved testimonial has not been supplied.",
+        "ctaHeading": "Plan your next [facilities project].",
+        "ctaText": "Tell us which assets, spaces and operating priorities you want to monitor."
+      }
+    },
+    {
+      "title": "Campus Facilities Intelligence",
+      "slug": "campus-facilities-intelligence-space-42",
+      "summary": "Comprehensive IoT monitoring across corporate campus — HVAC, energy, access, and environmental quality.",
+      "clientName": "Space 42",
+      "industry": "Technology",
+      "location": "UAE",
+      "platforms": [
+        "iotrics"
+      ],
+      "coverImage": "/images/portfolio/campus-facilities-intelligence-space-42/cover-v1.webp",
+      "coverAlt": "Contemporary corporate campus at dusk",
+      "solution": "<p>IoTRICs brings HVAC, energy, access and environmental monitoring into one campus facilities scope. Review readings by asset or space and use the context to guide investigation.</p>",
+      "technology": [
+        {
+          "label": "Platform",
+          "items": "IoTRICs"
+        },
+        {
+          "label": "HVAC",
+          "items": "Review monitored HVAC equipment and operating trends."
+        },
+        {
+          "label": "Energy",
+          "items": "Review energy readings in the context of monitored loads."
+        },
+        {
+          "label": "Access",
+          "items": "Include access monitoring alongside other facilities signals."
+        },
+        {
+          "label": "Environment",
+          "items": "Review environmental conditions in occupied areas."
+        }
+      ],
+      "seoTitle": "Campus Facilities Intelligence | Najhum",
+      "seoDescription": "Comprehensive IoT monitoring across corporate campus — HVAC, energy, access, and environmental quality.",
+      "ogImage": "/images/portfolio/campus-facilities-intelligence-space-42/cover-v1.webp",
+      "isDraft": false,
+      "featured": false,
+      "order": 4,
+      "publishedAt": "2026-10-31T18:59:56.834Z",
+      "clientLogo": "/logo/client%20logos/space42.png",
+      "clientOverview": "The Space 42 case study covers corporate campus operations. The supplied scope brings HVAC, energy, access and environmental monitoring together under IoTRICs.",
+      "challenge": "<p>A campus facilities team needs to interpret signals from different building services and occupied spaces. The project focuses on making that information easier to review together.</p>",
+      "results": "<p>The objectives below describe the intended operational benefits. Verified post-deployment measurements were not supplied.</p>",
+      "gallery": [
+        {
+          "url": "/images/blogs/smart-building/detail-1-v1.webp",
+          "alt": "Pumps and pipework in a plant room",
+          "caption": "Building services and maintenance",
+          "section": "challenge"
+        },
+        {
+          "url": "/images/blogs/smart-building/detail-2-v1.webp",
+          "alt": "Environmental sensor in an office",
+          "caption": "Indoor environmental monitoring",
+          "section": "solution"
+        },
+        {
+          "url": "/images/blogs/energy-monitoring/detail-1-v1.webp",
+          "alt": "Electrical monitoring equipment",
+          "caption": "Electrical monitoring",
+          "section": "gallery"
+        },
+        {
+          "url": "/images/blogs/energy-monitoring/detail-2-v1.webp",
+          "alt": "Building energy monitoring equipment",
+          "caption": "Energy monitoring context",
+          "section": "gallery"
+        }
+      ],
+      "galleryLayout": "grid",
+      "solutionIds": [
+        "cmvahdtv2000265pfw2bs5v4q",
+        "cmvaj55xr000p53pftpac2ogp"
+      ],
+      "caseStudy": {
+        "hiddenSections": [],
+        "heroTitle": "Campus facilities.",
+        "heroAccent": "Connected intelligence.",
+        "coverCaption": "",
+        "clientDisplay": "both",
+        "overviewHeading": "About [Space 42].",
+        "challengeHeading": "Make building signals [easier to review].",
+        "challengeIntro": "A campus facilities team needs to interpret signals from different building services and occupied spaces. The project focuses on making that information easier to review together.",
+        "painPoints": [
+          {
+            "title": "HVAC",
+            "description": "Review monitored HVAC equipment and operating trends.",
+            "icon": "settings"
+          },
+          {
+            "title": "Energy",
+            "description": "Review energy readings in the context of monitored loads.",
+            "icon": "energy"
+          },
+          {
+            "title": "Access",
+            "description": "Include access monitoring alongside other facilities signals.",
+            "icon": "building"
+          },
+          {
+            "title": "Environment",
+            "description": "Review environmental conditions in occupied areas.",
+            "icon": "air"
+          }
+        ],
+        "solutionHeading": "Connected facilities [monitoring].",
+        "solutionCallout": "IoTRICs brings HVAC, energy, access and environmental monitoring into one campus facilities scope. Review readings by asset or space and use the context to guide investigation.",
+        "components": [
+          {
+            "title": "HVAC",
+            "description": "Review monitored HVAC equipment and operating trends.",
+            "icon": "settings"
+          },
+          {
+            "title": "Energy",
+            "description": "Review energy readings in the context of monitored loads.",
+            "icon": "energy"
+          },
+          {
+            "title": "Access",
+            "description": "Include access monitoring alongside other facilities signals.",
+            "icon": "building"
+          },
+          {
+            "title": "Environment",
+            "description": "Review environmental conditions in occupied areas.",
+            "icon": "air"
+          }
+        ],
+        "technologyHeading": "Technology [in scope].",
+        "technologyIntro": "The platform and monitoring areas described in the project brief.",
+        "architectureTitle": "Monitoring approach",
+        "architectureSteps": [
+          {
+            "title": "Measure",
+            "description": "Collect readings from the monitoring areas in scope.",
+            "icon": "sensor"
+          },
+          {
+            "title": "Connect",
+            "description": "Bring the readings into the IoTRICs monitoring scope.",
+            "icon": "network"
+          },
+          {
+            "title": "Understand",
+            "description": "Review signals in the context of the monitored asset or space.",
+            "icon": "cloud"
+          },
+          {
+            "title": "Review",
+            "description": "Use that context to guide facilities investigations.",
+            "icon": "settings"
+          }
+        ],
+        "outcomeMode": "objectives",
+        "resultsHeading": "What the project [aims to enable].",
+        "keyWins": [
+          {
+            "title": "HVAC",
+            "description": "Review monitored HVAC equipment and operating trends.",
+            "icon": "settings"
+          },
+          {
+            "title": "Energy",
+            "description": "Review energy readings in the context of monitored loads.",
+            "icon": "energy"
+          },
+          {
+            "title": "Access",
+            "description": "Include access monitoring alongside other facilities signals.",
+            "icon": "building"
+          },
+          {
+            "title": "Environment",
+            "description": "Review environmental conditions in occupied areas.",
+            "icon": "air"
+          }
+        ],
+        "comparisonContext": [
+          {
+            "label": "HVAC",
+            "before": "A verified pre-project baseline was not supplied.",
+            "after": "Review monitored HVAC equipment and operating trends."
+          },
+          {
+            "label": "Energy",
+            "before": "A verified pre-project baseline was not supplied.",
+            "after": "Review energy readings in the context of monitored loads."
+          },
+          {
+            "label": "Access",
+            "before": "A verified pre-project baseline was not supplied.",
+            "after": "Include access monitoring alongside other facilities signals."
+          },
+          {
+            "label": "Environment",
+            "before": "A verified pre-project baseline was not supplied.",
+            "after": "Review environmental conditions in occupied areas."
+          }
+        ],
+        "galleryHeading": "Facilities monitoring [in pictures].",
+        "galleryIntro": "Examples of the building services and monitoring areas covered by this case study.",
+        "galleryFit": "contain",
+        "gallerySize": "medium",
+        "testimonialHeading": "Client perspective",
+        "testimonialNote": "A client-approved testimonial has not been supplied.",
+        "ctaHeading": "Plan your next [facilities project].",
+        "ctaText": "Tell us which assets, spaces and operating priorities you want to monitor."
+      }
+    }
+  ]
+}

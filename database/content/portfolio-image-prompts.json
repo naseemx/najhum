@@ -1,0 +1,30 @@
+{
+  "generator": "Built-in image_gen",
+  "images": [
+    {
+      "index": 0,
+      "source": "/Users/nash/.codex/generated_images/01a17490-7c27-7070-bbc2-5125d022f869/exec-ca10e77b-7904-4eab-9997-60506121e990.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: wide 1536x1024 portfolio cover. Create a polished editorial architectural photograph illustrating smart facilities management at a contemporary corporate headquarters in Dubai: glass office buildings, clean landscaped entrance, subtle building services equipment, warm morning sunlight, realistic materials, balanced wide composition, no text, no branding, no watermark. This is an illustrative concept for an IoT facilities project, not a documentary image of a named client's actual premises."
+    },
+    {
+      "index": 1,
+      "source": "/Users/nash/.codex/generated_images/01a17490-7c27-7070-bbc2-5125d022f869/exec-cec40ee9-dfa7-4f40-9196-ccf132678e41.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: wide 1536x1024 portfolio cover. Create a polished editorial photograph illustrating this project: A contemporary public electric vehicle charging plaza in the UAE, AC charging pedestals and a DC fast charger serving modern electric cars, shaded parking canopy, clean urban architecture, warm daylight. Realistic proportions and materials, refined architectural composition, no text, no logos, no watermark, no futuristic holograms. Illustrative concept only, do not reproduce an identifiable named client's actual property."
+    },
+    {
+      "index": 2,
+      "source": "/Users/nash/.codex/generated_images/01a17490-7c27-7070-bbc2-5125d022f869/exec-a4d71062-8f85-4478-8a27-bff3d4bb6796.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: wide 1536x1024 portfolio cover. Create a polished editorial photograph illustrating this project: A precision agriculture farm in the UAE, orderly green crop rows contrasting with the arid landscape, visible drip irrigation lines and a small soil sensor with discreet wireless gateway, farmer inspecting crops, soft sunrise light. Realistic proportions and materials, refined architectural composition, no text, no logos, no watermark, no futuristic holograms. Illustrative concept only, do not reproduce an identifiable named client's actual property."
+    },
+    {
+      "index": 3,
+      "source": "/Users/nash/.codex/generated_images/01a17490-7c27-7070-bbc2-5125d022f869/exec-438c7163-4393-4988-bfbb-d88233cb8add.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: wide 1536x1024 portfolio cover. Create a polished editorial photograph illustrating this project: A spacious contemporary Dubai shopping centre interior, elegant multi-level retail atrium with glass balustrades, skylight and clean HVAC diffusers, discreet ceiling environmental sensors, natural afternoon light, distant shoppers. Realistic proportions and materials, refined architectural composition, no text, no logos, no watermark, no futuristic holograms. Illustrative concept only, do not reproduce an identifiable named client's actual property."
+    },
+    {
+      "index": 4,
+      "source": "/Users/nash/.codex/generated_images/01a17490-7c27-7070-bbc2-5125d022f869/exec-f71d0510-273e-41b0-af72-a2afbae35d31.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: wide 1536x1024 portfolio cover. Create a polished editorial photograph illustrating this project: A contemporary technology corporate campus in the UAE, connected low-rise glass buildings, landscaped walkways, rooftop HVAC equipment subtly visible, sustainable infrastructure, clear early evening light. Realistic proportions and materials, refined architectural composition, no text, no logos, no watermark, no futuristic holograms. Illustrative concept only, do not reproduce an identifiable named client's actual property."
+    }
+  ]
+}

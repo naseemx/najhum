@@ -56,6 +56,7 @@ export default function Navbar() {
   const isLightHero =
     pathname === "/contact" ||
     pathname === "/products" ||
+    pathname.startsWith("/portfolio") ||
     pathname.startsWith("/products/") ||
     pathname === "/solutions" ||
     pathname.startsWith("/blogs");

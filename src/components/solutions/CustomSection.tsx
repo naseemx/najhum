@@ -1,3 +1,5 @@
+import ProjectGallery from '@/components/portfolio/ProjectGallery';
+import '@/components/portfolio/portfolio.css';
 import { BackgroundImageSection, FadedImageCards } from './ImageFeatureSections';
 import { mediaRatios } from '@/lib/builder/media';
 import { Heading } from '@/design-system/primitives/typography/Heading';
@@ -11,6 +13,7 @@ import SolutionVideoPlayer from './SolutionVideoPlayer';
 
 export default function CustomSection({ content }: { content: CustomContent }) {
   const { heading, bodyHtml, eyebrow, layout = 'rich-text', theme = 'light', headingAlign = 'left', mediaRatio, columns = 3, entries = [] } = content;
+  if (layout === 'gallery') return <section className={`solution-custom-section solution-surface-${theme} font-sans`}><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><SectionHeader heading={heading} eyebrow={eyebrow} description={bodyHtml}/><ProjectGallery layout={columns === 1 ? 'full' : 'grid'} images={entries.map(entry=>({url:entry.image || '',alt:entry.imageAlt || entry.title || '',caption:(entry.description || entry.title || '').replace(/<[^>]*>/g,''),section:'gallery' as const}))}/></div></section>;
   if (layout === 'image-banner') return <BackgroundImageSection content={content}/>;
   const dark = theme === 'dark';
   const visual = ['image-cards', 'overlay-cards', 'image-bento', 'split-stories', 'case-studies', 'video-cards'].includes(layout);

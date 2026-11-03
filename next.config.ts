@@ -18,7 +18,6 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),
   async redirects() {
     return [
-      { source: "/portfolio/:path*", destination: "/", permanent: false },
       { source: "/platforms", destination: "/", permanent: false },
       { source: "/platfoms", destination: "/", permanent: false },
       { source: "/images/elvotics/:path*", destination: "/images/evoltics/:path*", permanent: true },

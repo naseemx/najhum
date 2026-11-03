@@ -1,4 +1,5 @@
  'use client';
+import './contents-panel.css';
 import { useEffect, useRef, useState } from 'react';
 import { Check, Copy, List, ChevronDown } from 'lucide-react';
 import type { ArticleHeading } from '@/lib/blog/content';
