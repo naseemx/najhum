@@ -46,7 +46,7 @@ function MenuFooter({ onNavigate, platforms = false }: { onNavigate: () => void;
 }
 
 export function SolutionsMenuContent({ solutions, mobile = false, onNavigate }: { solutions: PublishedSolutionItem[]; mobile?: boolean; onNavigate: () => void }) {
-  const [active, setActive] = useState<"industry" | "usecase">("industry");
+  const [active, setActive] = useState<"industry" | "usecase">("usecase");
   const id = useId();
   const groups = buildSolutionGroups(solutions);
   const current = groups[active];
@@ -55,7 +55,7 @@ export function SolutionsMenuContent({ solutions, mobile = false, onNavigate }: 
       <div className={styles.solutionRail}>
         {!mobile && <span className={styles.railLabel}>Browse solutions</span>}
         <div role="tablist" aria-label="Browse solutions" aria-orientation={mobile ? "horizontal" : "vertical"} className={styles.tabs}>
-          {(["industry", "usecase"] as const).map(key => <button key={key} id={`${id}-${key}`} role="tab" type="button" aria-selected={active === key} aria-controls={`${id}-panel`} tabIndex={active === key ? 0 : -1} onClick={() => setActive(key)} onKeyDown={event => { if (["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) { event.preventDefault(); const next = event.key === "Home" ? "industry" : event.key === "End" ? "usecase" : key === "industry" ? "usecase" : "industry"; setActive(next); document.getElementById(`${id}-${next}`)?.focus(); } }}>
+          {(["usecase"] as const).map(key => <button key={key} id={`${id}-${key}`} role="tab" type="button" aria-selected={active === key} aria-controls={`${id}-panel`} tabIndex={active === key ? 0 : -1} onClick={() => setActive(key)} onKeyDown={event => { if (["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) { event.preventDefault(); document.getElementById(`${id}-usecase`)?.focus(); } }}>
             <span>{groups[key].label}{!mobile && <small>{groups[key].hint}</small>}</span><span className={styles.count}>{groups[key].items.length}</span>
           </button>)}
         </div>

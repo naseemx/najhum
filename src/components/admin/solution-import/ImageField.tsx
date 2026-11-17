@@ -3,13 +3,13 @@ import {useEffect,useRef,useState} from 'react';
 import {ImagePlus,Replace,Scissors,Trash2,Link as LinkIcon,X,Upload} from 'lucide-react';
 import styles from './ImportEditor.module.css';
 
-type Props={label:string;help:string;value:string;onChange:(url:string)=>void;onError:(message:string)=>void;disabled?:boolean;social?:boolean;icon?:boolean;onBusy?:(busy:boolean)=>void};
-export default function ImageField({label,help,value,onChange,onError,disabled,social,icon,onBusy}:Props){
+type Props={label:string;help:string;value:string;onChange:(url:string)=>void;onError:(message:string)=>void;disabled?:boolean;social?:boolean;icon?:boolean;coverHeight?:number;onBusy?:(busy:boolean)=>void};
+export default function ImageField({label,help,value,onChange,onError,disabled,social,icon,coverHeight=675,onBusy}:Props){
  const [uploading,setUploading]=useState(false),[urlEditor,setUrlEditor]=useState(false),[cropReady,setCropReady]=useState(false);
  const [crop,setCrop]=useState<{file:File;url:string}|null>(null);
  const [zoom,setZoom]=useState(1),[x,setX]=useState(50),[y,setY]=useState(50);
  const canvas=useRef<HTMLCanvasElement>(null),bitmap=useRef<ImageBitmap|null>(null),picker=useRef<HTMLInputElement>(null),dialog=useRef<HTMLDialogElement>(null);
- const height=social?630:675,width=1200;
+ const height=social?630:coverHeight,width=1200;
  useEffect(()=>{if(!crop)return;let cancelled=false;dialog.current?.showModal();createImageBitmap(crop.file).then(image=>{if(cancelled){image.close();return;}bitmap.current=image;setCropReady(true);draw();}).catch(()=>{onError('Could not open this image. Use a PNG, JPG or WebP file.');setCrop(null);});return ()=>{cancelled=true;bitmap.current?.close();bitmap.current=null;URL.revokeObjectURL(crop.url);};
  // Drawing is repeated when zoom/position changes below.
  // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,7 +27,7 @@ export default function ImageField({label,help,value,onChange,onError,disabled,s
  async function useCrop(){draw();const blob=await new Promise<Blob|null>(resolve=>canvas.current?.toBlob(resolve,'image/jpeg',.9));if(!blob){onError('Could not create cropped image.');return;}setCrop(null);await upload(new File([blob],social?'social-1200x630.jpg':'cover.jpg',{type:'image/jpeg'}));}
  const locked=disabled||uploading;
  return <div className={styles.imageField}>
-  <div className={styles.fieldHeading}><strong>{label}</strong><span>{social?'1200 × 630':icon?'SVG':'Cover image'}</span></div><p className={styles.help}>{help}</p>
+  <div className={styles.fieldHeading}><strong>{label}</strong><span>{icon?'SVG':`${width} × ${height} px`}</span></div><p className={styles.help}>{help}</p>
   <div className={`${styles.imagePreview} ${icon?styles.iconPreview:''}`}>
    {value?<img src={value} alt={`${label} preview`}/>:<div><ImagePlus size={28}/><p>No image selected</p><span>Upload an image or enter its URL</span></div>}
    {uploading&&<div className={styles.uploadOverlay}>Uploading…</div>}
