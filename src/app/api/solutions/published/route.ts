@@ -10,7 +10,7 @@ import { prisma } from '@/lib/db/prisma';
 export async function GET() {
   try {
     const solutions = await prisma.solution.findMany({
-      where: { isDraft: false, contentMode: 'HTML', classification: { not: 'INDUSTRY' }, publishedRevisionId: { not: null } },
+      where: { isDraft: false, contentMode: 'HTML', publishedRevisionId: { not: null } },
       select: {
         title: true,
         classification: true,
