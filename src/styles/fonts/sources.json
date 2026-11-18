@@ -1,0 +1,56 @@
+[
+  {
+    "family": "Inter",
+    "weight": "300..700",
+    "file": "inter-latin-variable.woff2",
+    "source": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2"
+  },
+  {
+    "family": "Outfit",
+    "weight": "400..900",
+    "file": "outfit-latin-variable.woff2",
+    "source": "https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2"
+  },
+  {
+    "family": "Poppins",
+    "weight": "300",
+    "file": "poppins-latin-300.woff2",
+    "source": "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLDz8Z1xlFd2JQEk.woff2"
+  },
+  {
+    "family": "Poppins",
+    "weight": "400",
+    "file": "poppins-latin-400.woff2",
+    "source": "https://fonts.gstatic.com/s/poppins/v24/pxiEyp8kv8JHgFVrJJfecnFHGPc.woff2"
+  },
+  {
+    "family": "Poppins",
+    "weight": "500",
+    "file": "poppins-latin-500.woff2",
+    "source": "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLGT9Z1xlFd2JQEk.woff2"
+  },
+  {
+    "family": "Poppins",
+    "weight": "600",
+    "file": "poppins-latin-600.woff2",
+    "source": "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLEj6Z1xlFd2JQEk.woff2"
+  },
+  {
+    "family": "Poppins",
+    "weight": "700",
+    "file": "poppins-latin-700.woff2",
+    "source": "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLCz7Z1xlFd2JQEk.woff2"
+  },
+  {
+    "family": "Poppins",
+    "weight": "800",
+    "file": "poppins-latin-800.woff2",
+    "source": "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLDD4Z1xlFd2JQEk.woff2"
+  },
+  {
+    "family": "Poppins",
+    "weight": "900",
+    "file": "poppins-latin-900.woff2",
+    "source": "https://fonts.gstatic.com/s/poppins/v24/pxiByp8kv8JHgFVrLBT5Z1xlFd2JQEk.woff2"
+  }
+]

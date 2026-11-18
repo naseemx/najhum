@@ -2,7 +2,7 @@ import { buildMetadata, pageSchema } from "@/lib/seo";
 import { pageSeo } from "@/content/page-seo";
 import { pageSections } from "@/content/page-sections";
 import StructuredData from "@/components/seo/StructuredData";
-import { Poppins } from "next/font/google";
+import {poppins} from "@/styles/fonts";
 import IotricsHero from "@/components/sections/iotrics/IotricsHero";
 import IotricsPipeline from "@/components/sections/iotrics/IotricsPipeline";
 import IotricsAbout from "@/components/sections/iotrics/IotricsAbout";
@@ -15,10 +15,6 @@ import IotricsCta from "@/components/sections/iotrics/IotricsCta";
 import PlatformProductsServer from "@/components/shared/PlatformProductsServer";
 import PlatformSolutionsServer from "@/components/shared/PlatformSolutionsServer";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata = buildMetadata(pageSeo.iotrics);
 

@@ -3,14 +3,9 @@
 import AccentText from "@/components/ui/AccentText";
 import HomePlatformCards from "./HomePlatformCards";
 import React, { useRef, useState } from "react";
-import { Poppins } from "next/font/google";
+import {poppins} from "@/styles/fonts";
 import { homeContent } from "@/content/home";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins"
-});
 
 export default function Platforms() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,8 +16,8 @@ export default function Platforms() {
     <section id="platforms" aria-label="Enterprise platforms and the 3C methodology"
       className={`relative w-full pt-16 sm:pt-24 lg:pt-32 pb-0 text-zinc-900 ${poppins.variable} ${poppins.className} z-10`}
       style={{
-        '--font-display': 'var(--font-poppins)',
-        '--font-sans': 'var(--font-poppins)'
+        '--font-display': 'var(--font-poppins-base)',
+        '--font-sans': 'var(--font-poppins-base)'
       } as React.CSSProperties}
     >
       <div className="max-w-[1920px] mx-auto px-4 sm:px-8 lg:px-12" ref={containerRef}>

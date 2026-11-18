@@ -16,13 +16,8 @@ import EvolticsCarbonCredit from "@/components/sections/evoltics/EvolticsCarbonC
 import EvolticsFaq from "@/components/sections/evoltics/EvolticsFaq";
 import EvolticsCta from "@/components/sections/evoltics/EvolticsCta";
 
-import { Poppins } from "next/font/google";
+import {poppins} from "@/styles/fonts";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins"
-});
 
 export const metadata = buildMetadata(pageSeo.evoltics);
 
@@ -31,8 +26,8 @@ export default function EvolticsPage() {
     <><StructuredData data={pageSchema(pageSeo.evoltics, pageSections.evoltics, { "@type": "SoftwareApplication", name: "EVOLTICS", applicationCategory: "BusinessApplication", operatingSystem: "Web", url: pageSeo.evoltics.path, provider: { "@type": "Organization", name: "Najhum Technologies LLC" } })} /><div
       className={`flex flex-col w-full ${poppins.variable} ${poppins.className}`}
       style={{
-        '--font-display': 'var(--font-poppins)',
-        '--font-sans': 'var(--font-poppins)',
+        '--font-display': 'var(--font-poppins-base)',
+        '--font-sans': 'var(--font-poppins-base)',
       } as React.CSSProperties}
     >
       <EvolticsHero />

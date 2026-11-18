@@ -7,21 +7,16 @@ import ImpactDotWave from "./ImpactDotWave";
 import motion from "./ImpactMotion.module.css";
 import { Card } from "@/design-system/primitives/surfaces/Card";
 import { homeContent } from "@/content/home";
-import { Poppins } from "next/font/google";
+import {poppins} from "@/styles/fonts";
 
-const poppins = Poppins({ 
-  subsets: ["latin"], 
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins"
-});
 
 export default function Impact() {
   return (
     <section id="impact" aria-label="Build intelligent operations"
       className={`relative w-full bg-white pt-10 sm:pt-16 lg:pt-20 pb-0 ${poppins.variable} ${poppins.className}`}
       style={{
-        '--font-display': 'var(--font-poppins)',
-        '--font-sans': 'var(--font-poppins)'
+        '--font-display': 'var(--font-poppins-base)',
+        '--font-sans': 'var(--font-poppins-base)'
       } as React.CSSProperties}
     >
       <div className="max-w-[1536px] mx-auto px-4 sm:px-8 lg:px-16">

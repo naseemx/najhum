@@ -1,16 +1,11 @@
 import AccentText from "@/components/ui/AccentText";
 import React from "react";
 import Link from "next/link";
-import { Poppins } from "next/font/google";
+import {poppins} from "@/styles/fonts";
 import { homeContent } from "@/content/home";
 import DottedWorldMap from "./about/DottedWorldMap";
 import { ArrowRight } from "lucide-react";
 
-const poppins = Poppins({ 
-  subsets: ["latin"], 
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins"
-});
 
 
 export default function About() {
@@ -18,8 +13,8 @@ export default function About() {
     <section id="about" aria-label="About Najhum"
       className={`relative w-full bg-[#f8f9fa] py-8 sm:py-16 lg:py-32 ${poppins.variable} ${poppins.className} overflow-hidden sticky top-0 z-0`}
       style={{
-        '--font-display': 'var(--font-poppins)',
-        '--font-sans': 'var(--font-poppins)'
+        '--font-display': 'var(--font-poppins-base)',
+        '--font-sans': 'var(--font-poppins-base)'
       } as React.CSSProperties}
     >
       <div className="max-w-[1536px] mx-auto px-6 sm:px-8 lg:px-12 relative z-10">

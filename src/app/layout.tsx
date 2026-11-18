@@ -2,15 +2,12 @@ import StructuredData from "@/components/seo/StructuredData";
 import { organisationSchema } from "@/lib/seo";
 import { pageSeo } from "@/content/page-seo";
 import type { Metadata, Viewport } from "next";
-import { Outfit, Inter, Poppins } from "next/font/google";
+import {outfit,inter,poppins} from "@/styles/fonts";
 import { siteConfig } from "@/config/site";
 import { Providers } from "./providers";
 import Navbar from "@/components/layout/Navbar";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans-base", display: "swap", weight: ["300", "400", "500", "600", "700"] });
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-display-base", display: "swap", weight: ["400", "500", "600", "700", "800", "900"] });
-const poppins = Poppins({ subsets: ["latin"], variable: "--font-poppins-base", display: "swap", weight: ["300", "400", "500", "600", "700", "800", "900"] });
 
 export const viewport: Viewport = {
   themeColor: "#0b0b0c",

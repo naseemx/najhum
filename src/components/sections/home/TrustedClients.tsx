@@ -2,13 +2,8 @@
 
 import React from "react";
 import { Hexagon, Triangle, Circle, Square, Box, Shield, Cloud, Activity } from "lucide-react";
-import { Poppins } from "next/font/google";
+import {poppins} from "@/styles/fonts";
 
-const poppins = Poppins({ 
-  subsets: ["latin"], 
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-poppins"
-});
 
 const clients = [
   { name: "Lumina", icon: Hexagon },
@@ -26,8 +21,8 @@ export default function TrustedClients() {
     <section 
       className={`w-full bg-white py-10 sm:py-16 border-b border-neutral-200 ${poppins.variable} ${poppins.className}`}
       style={{
-        '--font-display': 'var(--font-poppins)',
-        '--font-sans': 'var(--font-poppins)'
+        '--font-display': 'var(--font-poppins-base)',
+        '--font-sans': 'var(--font-poppins-base)'
       } as React.CSSProperties}
     >
       <div className="max-w-[1536px] mx-auto px-6 sm:px-8 lg:px-12">

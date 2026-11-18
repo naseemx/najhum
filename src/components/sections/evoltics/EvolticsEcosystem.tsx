@@ -1,13 +1,9 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { Poppins } from "next/font/google";
+import {poppins} from "@/styles/fonts";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 import { evolticsContent } from "@/content/evoltics";
 
