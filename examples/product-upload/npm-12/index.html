@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NPM-12 Smart Power Monitor Hub | Najhum</title>
+<meta name="description" content="NPM-12 meters up to 12 circuits from one distribution board, with power quality, alarms and live dashboards in IoTRICs.">
+<style>
+.njnpm{--ink:#0F172A; --ink-2:#475569; --ink-3:#64748B;
+  --blue:#167DE4; --blue-d:#0F5FB0; --blue-ink:#0B5FB3; --blue-soft:#EEF4FF; --blue-tint:rgba(22,125,228,.10);
+  --bg:#FFFFFF; --bg2:#F5F7FA; --line:#E4E7EC; --line-2:#EEF0F3; --grid:#E2E8F0;
+  --night:#0B1220; --night-2:#121B2E; --night-line:rgba(255,255,255,.08);
+  --card:0 0 0 1px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04),0 8px 24px -12px rgba(15,23,42,.10);
+  --card-hi:0 0 0 1px rgba(22,125,228,.45),0 2px 4px rgba(15,23,42,.04),0 18px 40px -16px rgba(22,125,228,.28);
+  --font:var(--font-poppins-base, system-ui), sans-serif;
+  --e:cubic-bezier(.2,.8,.2,1);
+  --gl:max(16px, env(safe-area-inset-left,0px)); --gr:max(16px, env(safe-area-inset-right,0px));
+  color-scheme:light;--top:var(--solution-header-height, 0px);}
+.njnpm,.njnpm *{box-sizing:border-box}
+.njnpm{background:var(--bg);color:var(--ink);font:400 15px/1.6 var(--font);-webkit-font-smoothing:antialiased}
+.njnpm a{color:var(--blue-ink);text-decoration:none}
+.njnpm a:hover{color:var(--blue-d)}
+.njnpm button{font:inherit;color:inherit}
+.njnpm h1,.njnpm h2,.njnpm h3{text-wrap:balance;margin:0;letter-spacing:-.02em}
+.njnpm p{margin:0}
+.njnpm :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+.njnpm .sr{position:absolute;left:-9999px}
+.njnpm .wrap{max-width:1240px;margin:0 auto;padding-left:var(--gl);padding-right:var(--gr)}
+@media (min-width:720px){.njnpm .wrap{padding-left:max(32px, env(safe-area-inset-left,0px));padding-right:max(32px, env(safe-area-inset-right,0px))}}
+.njnpm .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-ink)}
+.njnpm .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px var(--blue-tint)}
+.njnpm .h2{font-size:clamp(26px,3.4vw,38px);line-height:1.15;font-weight:700}
+.njnpm .sub{color:var(--ink-2);font-size:16px;max-width:640px}
+.njnpm .sec-head{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.njnpm .model{display:inline-flex;align-items:center;background:var(--ink);color:#fff;font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;letter-spacing:.02em}
+.njnpm .ico{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.njnpm .gridbg{position:relative;isolation:isolate}
+.njnpm .gridbg::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:64px 64px;background-position:center top;
+  -webkit-mask-image:radial-gradient(80% 70% at 50% 0,#000 20%,transparent 100%);mask-image:radial-gradient(80% 70% at 50% 0,#000 20%,transparent 100%)}
+.njnpm .nbtn{position:relative;display:inline-flex;align-items:center;height:52px;border-radius:999px;overflow:hidden;color:#fff;border:0;cursor:pointer;
+  background:linear-gradient(180deg,#1a1a1a 0%,#0a0a0a 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px rgba(0,0,0,.22);transition:transform .15s}
+.njnpm .nbtn:hover{color:#fff}
+.njnpm .nbtn:active{transform:scale(.98)}
+.njnpm .nbtn .nb-fill{position:absolute;z-index:1;left:5px;top:5px;bottom:5px;width:42px;border-radius:999px;display:flex;align-items:center;padding-left:14px;color:#fff;
+  background:linear-gradient(180deg,#167DE4 0%,#0F5FB0 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -2px 4px rgba(0,0,0,.12);transition:width .25s cubic-bezier(.65,0,.35,1)}
+.njnpm .nbtn .nb-fill svg{width:14px;height:16px}
+.njnpm .nbtn .nb-l{position:relative;z-index:2;padding:0 26px 0 62px;font-weight:500;font-size:15px;white-space:nowrap}
+.njnpm .nbtn:hover .nb-fill,.njnpm .nbtn:focus-visible .nb-fill{width:calc(100% - 10px)}
+.njnpm .nbtn.light{background:#fff;color:var(--ink);box-shadow:0 0 0 1px var(--line),0 6px 16px rgba(15,23,42,.08)}
+.njnpm .nbtn.light:hover{color:#fff}
+.njnpm .nbtn.sm{height:44px}
+.njnpm .nbtn.sm .nb-fill{width:34px;padding-left:10px}
+.njnpm .nbtn.sm .nb-l{padding:0 20px 0 50px;font-size:14px}
+.njnpm .nbtn.sm:hover .nb-fill,.njnpm .nbtn.sm:focus-visible .nb-fill{width:calc(100% - 10px)}
+.njnpm .gbtn{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 22px;border-radius:999px;font-weight:500;font-size:15px;color:var(--ink);background:#fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;border:0}
+.njnpm .gbtn:hover{color:var(--blue-ink);box-shadow:0 0 0 1px var(--blue)}
+.njnpm .gbtn .ico{color:var(--blue)}
+@media (prefers-reduced-motion:no-preference){.njnpm .nbtn .dd{animation:njp-dot 1.4s ease-in-out infinite}
+.njnpm .nbtn .d1{animation-delay:.1s}
+.njnpm .nbtn .d2{animation-delay:.2s}
+.njnpm .nbtn .d3{animation-delay:.3s}
+.njnpm .nbtn .d4{animation-delay:.4s}}
+@keyframes njp-dot{0%,100%{opacity:1}50%{opacity:.35}}
+.njnpm .menu-btn{display:none;width:44px;height:44px;border:0;box-shadow:0 0 0 1px var(--line);border-radius:12px;background:#fff;align-items:center;justify-content:center;cursor:pointer}
+@media (max-width:860px){.njnpm .menu-btn{display:inline-flex}}
+.njnpm .crumbs{font-size:13px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px}
+.njnpm .crumbs a{color:var(--ink-3)}
+.njnpm .crumbs a:hover{color:var(--blue-ink)}
+.njnpm .crumbs [aria-current]{color:var(--ink)}
+.njnpm .l-hero .wrap{padding-block:48px 56px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center}
+@media (max-width:960px){.njnpm .l-hero .wrap{grid-template-columns:minmax(0,1fr);gap:32px;padding-block:32px 40px}}
+.njnpm .l-hero h1{margin:18px 0 16px;font-size:clamp(34px,5.2vw,56px);line-height:1.06;font-weight:800;letter-spacing:-.035em}
+.njnpm .l-hero h1 em{font-style:normal;color:var(--blue)}
+.njnpm .l-hero .sub{font-size:17px}
+.njnpm .search{margin-top:28px;display:flex;align-items:center;gap:10px;background:#fff;border-radius:18px;padding:0 8px 0 18px;height:60px;max-width:580px;box-shadow:0 0 0 1px var(--line),0 12px 32px -16px rgba(15,23,42,.18);transition:box-shadow .15s}
+.njnpm .search:focus-within{box-shadow:0 0 0 2px var(--blue),0 12px 32px -16px rgba(22,125,228,.35)}
+.njnpm .search input{border:0;outline:0;font:inherit;font-size:15px;flex:1;min-width:0;background:transparent;color:var(--ink)}
+.njnpm .search .clear{border:0;background:transparent;width:40px;height:40px;border-radius:10px;cursor:pointer;color:var(--ink-3);display:none;align-items:center;justify-content:center}
+.njnpm .search .clear.on{display:inline-flex}
+.njnpm .search .clear:hover{background:var(--bg2)}
+.njnpm .search kbd{font:500 12px var(--font);color:var(--ink-3);background:var(--bg2);border-radius:6px;padding:4px 8px}
+@media (max-width:600px){.njnpm .search kbd{display:none}}
+.njnpm .try{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--ink-3)}
+.njnpm .try button{border:0;background:var(--bg2);border-radius:999px;padding:0 12px;min-height:32px;font-size:13px;cursor:pointer;color:var(--ink-2)}
+.njnpm .try button:hover{background:var(--blue-soft);color:var(--blue-ink)}
+.njnpm .stats{margin-top:32px;display:flex;flex-wrap:wrap;gap:12px 36px}
+.njnpm .stat b{display:block;font-size:28px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.njnpm .stat span{font-size:13px;color:var(--ink-3)}
+.njnpm .collage{position:relative;aspect-ratio:1/0.9;max-width:520px;width:100%;justify-self:center}
+.njnpm .collage .halo{position:absolute;inset:8% 6%;border-radius:50%;background:radial-gradient(circle at 50% 45%,#DCEBFF 0%,#EEF4FF 45%,rgba(238,244,255,0) 72%)}
+.njnpm .collage .ring{position:absolute;border-radius:50%;border:1px dashed #BFD6F5}
+.njnpm .collage .r1{inset:14% 12%}
+.njnpm .collage .r2{inset:26% 24%;border-style:solid;border-color:#D8E6F8}
+.njnpm .chipcard{position:absolute;background:#fff;border-radius:20px;box-shadow:var(--card);display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 16px 12px}
+.njnpm .chipcard img{object-fit:contain;filter:drop-shadow(0 10px 12px rgba(15,23,42,.18))}
+.njnpm .chipcard span{font-size:11.5px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.njnpm .cc-main{left:50%;top:48%;transform:translate(-50%,-50%);padding:20px 24px 16px}
+.njnpm .cc-main img{width:min(200px,36vw);height:auto}
+.njnpm .cc-a{left:0;top:6%}
+.njnpm .cc-a img{width:min(56px,11vw);height:auto}
+.njnpm .cc-b{right:0;top:14%}
+.njnpm .cc-b img{width:min(92px,17vw);height:auto}
+.njnpm .cc-c{right:4%;bottom:2%}
+.njnpm .cc-c img{width:min(116px,21vw);height:auto}
+.njnpm .live{position:absolute;left:2%;bottom:10%;background:var(--night);color:#fff;border-radius:14px;padding:10px 14px;font-size:12px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 28px -12px rgba(11,18,32,.5)}
+.njnpm .live i{width:8px;height:8px;border-radius:50%;background:#34D399;box-shadow:0 0 0 4px rgba(52,211,153,.2)}
+@media (max-width:520px){.njnpm .chipcard span,.njnpm .live span{font-size:10.5px}
+.njnpm .chipcard{padding:10px 10px 8px}}
+@media (prefers-reduced-motion:no-preference){.njnpm .cc-a{animation:njp-bob 6s ease-in-out infinite}
+.njnpm .cc-b{animation:njp-bob 7s ease-in-out -2s infinite}
+.njnpm .cc-c{animation:njp-bob 6.5s ease-in-out -4s infinite}}
+@keyframes njp-bob{0%,100%{translate:0 0}50%{translate:0 -8px}}
+.njnpm .rail{position:sticky;top:var(--top);z-index:40;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
+.njnpm .chips{padding-block:12px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.njnpm .chips::-webkit-scrollbar{display:none}
+.njnpm .chip{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;min-height:44px;padding:0 12px 0 12px;border-radius:999px;border:0;background:var(--bg2);cursor:pointer;white-space:nowrap;color:var(--ink);transition:background .15s}
+.njnpm .chip:hover{background:#E9EEF5}
+.njnpm .chip svg{width:18px;height:18px;stroke:var(--blue);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.njnpm .chip .n{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums;background:#fff;border-radius:999px;padding:1px 8px}
+.njnpm .chip[aria-pressed="true"]{background:var(--ink);color:#fff}
+.njnpm .chip[aria-pressed="true"] svg{stroke:#7DB8F5}
+.njnpm .chip[aria-pressed="true"] .n{background:rgba(255,255,255,.14);color:#fff}
+.njnpm .l-body{padding-block:36px 72px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px;align-items:start}
+.njnpm .filters{display:flex;flex-direction:column;gap:8px;position:sticky;top:calc(var(--top) + 84px)}
+.njnpm .fpanel{background:var(--bg2);border-radius:20px;padding:6px 18px}
+.njnpm .fgroup{border:0;margin:0;padding:16px 0;min-width:0;border-top:1px solid var(--line)}
+.njnpm .fgroup:first-child{border-top:0}
+.njnpm .fgroup legend{float:left;width:100%;margin:0 0 10px;padding:0;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--ink-3);text-transform:uppercase}
+.njnpm .fopts{clear:both;display:flex;flex-direction:column;gap:2px}
+.njnpm .fopt{display:flex;align-items:center;gap:12px;font-size:14px;min-height:40px;cursor:pointer;padding:0 8px;margin:0 -8px;border-radius:10px;transition:background .15s}
+.njnpm .fopt:hover{background:#EBF0F6}
+.njnpm .fopt input{appearance:none;-webkit-appearance:none;flex-shrink:0;width:20px;height:20px;margin:0;border-radius:6px;background:#fff;box-shadow:inset 0 0 0 1.5px #CBD5E1;cursor:pointer;transition:background-color .15s, box-shadow .15s}
+.njnpm .fopt:hover input{box-shadow:inset 0 0 0 1.5px var(--blue)}
+.njnpm .fopt input:checked{background:var(--blue) url("assets/tick-white.svg") center/13px no-repeat;box-shadow:none}
+.njnpm .fopt input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.njnpm .fopt.on{font-weight:500}
+.njnpm .fopt .n{margin-left:auto;min-width:26px;text-align:center;color:var(--ink-3);font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;background:#fff;border-radius:999px;padding:1px 8px}
+.njnpm .fopt.on .n{background:var(--blue-soft);color:var(--blue-ink)}
+.njnpm .fopt.zero{color:#A0A9B6;cursor:default}
+.njnpm .fopt.zero:hover{background:transparent}
+.njnpm .fopt.zero input{cursor:default;background:#F1F4F8;box-shadow:inset 0 0 0 1.5px #E2E8F0}
+.njnpm .fopt.zero .n{background:transparent}
+.njnpm .help{border-radius:20px;padding:20px;background:linear-gradient(135deg,#EEF4FF 0%,#F5F7FA 60%);margin-top:8px}
+.njnpm .help h2{font-size:15px;font-weight:600;margin-bottom:6px;letter-spacing:0}
+.njnpm .help p{font-size:13px;color:var(--ink-2);margin-bottom:12px}
+.njnpm .help a{font-size:14px;font-weight:600}
+.njnpm .drawer-head,.njnpm .drawer-foot,.njnpm .filter-btn{display:none}
+.njnpm .res-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.njnpm .res-head h2{font-size:24px;font-weight:700}
+.njnpm .res-head p{margin-top:2px;font-size:13px;color:var(--ink-3)}
+.njnpm .tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.njnpm .sort{position:relative}
+.njnpm .sort select{appearance:none;-webkit-appearance:none;font:inherit;font-size:14px;height:44px;padding:0 40px 0 16px;border:0;border-radius:999px;background:var(--bg2);color:var(--ink);cursor:pointer}
+.njnpm .sort svg{position:absolute;right:14px;top:50%;translate:0 -50%;pointer-events:none;width:16px;height:16px;color:var(--ink-3)}
+.njnpm .active-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.njnpm .active-tags:empty{display:none}
+.njnpm .tag{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;background:var(--blue-soft);color:var(--blue-ink);border:0;border-radius:999px;min-height:34px;padding:0 10px 0 14px;cursor:pointer}
+.njnpm .tag:hover{background:#DCEBFF}
+.njnpm .tag svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
+.njnpm .tag.reset{background:transparent;text-decoration:underline;text-underline-offset:3px}
+.njnpm .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.njnpm .card{position:relative;border-radius:24px;background:#fff;box-shadow:var(--card);display:flex;flex-direction:column;overflow:hidden;transition:box-shadow .2s var(--e),transform .2s var(--e)}
+.njnpm .card:hover{box-shadow:var(--card-hi);transform:translateY(-3px)}
+.njnpm .card.hit{box-shadow:0 0 0 3px var(--blue),var(--card)}
+.njnpm .media{position:relative;height:210px;margin:8px 8px 0;border-radius:18px;background:radial-gradient(120% 90% at 50% 100%,#E6EEF8 0%,#F5F7FA 55%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.njnpm .media img{width:62%;height:150px;object-fit:contain;filter:drop-shadow(0 14px 16px rgba(15,23,42,.22));transition:transform .35s var(--e)}
+.njnpm .card:hover .media img{transform:scale(1.05)}
+.njnpm .media .ph{width:64px;height:64px;stroke:#9DC3EE;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.njnpm .media .model{position:absolute;top:12px;left:12px}
+.njnpm .media .ph-note{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:11px;color:#7A8595}
+.njnpm .cbody{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.njnpm .cbody .cat{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--blue-ink)}
+.njnpm .card h3{font-size:17px;line-height:1.35;font-weight:600;letter-spacing:-.01em}
+.njnpm .card h3 a{color:var(--ink)}
+.njnpm .card h3 a::after{content:"";position:absolute;inset:0;border-radius:24px}
+.njnpm .card p{font-size:13.5px;color:var(--ink-2)}
+.njnpm .specs{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.njnpm .specs li{font-size:12px;font-weight:500;background:var(--bg2);color:var(--ink-2);padding:4px 10px;border-radius:999px}
+.njnpm .cfoot{margin-top:auto;padding-top:16px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.njnpm .conn{display:flex;gap:6px;flex-wrap:wrap}
+.njnpm .conn span{font-size:11px;font-weight:600;color:var(--ink-3);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.njnpm .go{position:relative;z-index:2;width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.njnpm .card:hover .go{background:var(--blue)}
+.njnpm .go.off,.njnpm .card:hover .go.off{background:var(--bg2);color:#A0A9B6}
+.njnpm .dl{position:relative;z-index:2;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:var(--ink-3);min-height:32px}
+.njnpm .dl:hover{color:var(--blue-ink)}
+.njnpm .dl .ico{width:16px;height:16px}
+.njnpm .empty{grid-column:1/-1;border-radius:24px;background:var(--bg2);padding:48px 24px;text-align:center}
+.njnpm .empty h3{font-size:18px;margin-bottom:6px}
+.njnpm .empty p{color:var(--ink-2);font-size:14px;margin-bottom:18px}
+@media (max-width:920px){.njnpm .l-body{grid-template-columns:minmax(0,1fr);gap:0}
+.njnpm .filter-btn{display:inline-flex;height:44px}
+.njnpm .filters{position:fixed;top:0;right:0;bottom:0;width:min(370px,92vw);z-index:80;background:#fff;overflow-y:auto;padding:0 max(20px, env(safe-area-inset-right,0px)) 0 20px;transform:translateX(100%);transition:transform .28s var(--e);gap:12px;box-shadow:-16px 0 40px rgba(15,23,42,.14)}
+.njnpm .filters.open{transform:none}
+.njnpm .drawer-head{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;padding:calc(env(safe-area-inset-top,0px) + 14px) 0 12px;z-index:1}
+.njnpm .drawer-head h2{font-size:18px}
+.njnpm .drawer-foot{display:block;position:sticky;bottom:0;background:#fff;padding:14px 0 calc(env(safe-area-inset-bottom,0px) + 14px);margin-top:auto}
+.njnpm .drawer-foot .nbtn{width:100%}
+.njnpm .help{display:none}
+.njnpm .scrim{position:fixed;inset:0;background:rgba(11,18,32,.42);z-index:70}}
+.njnpm .night{background:var(--night);color:#fff;position:relative;overflow:hidden;isolation:isolate}
+.njnpm .night::before{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(to right,var(--night-line) 1px,transparent 1px),linear-gradient(to bottom,var(--night-line) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(70% 90% at 50% 50%,#000 10%,transparent 100%);mask-image:radial-gradient(70% 90% at 50% 50%,#000 10%,transparent 100%)}
+.njnpm .night::after{content:"";position:absolute;z-index:-1;width:620px;height:620px;right:-160px;top:-260px;border-radius:50%;background:radial-gradient(circle,rgba(22,125,228,.35),transparent 65%)}
+.njnpm .night .wrap{padding-block:80px}
+.njnpm .night .eyebrow{color:#7DB8F5}
+.njnpm .night .h2{color:#fff}
+.njnpm .night .sub{color:#A9B4C6}
+.njnpm .flow{margin:40px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.njnpm .flow{grid-template-columns:minmax(0,1fr)}}
+.njnpm .flow li{list-style:none;background:var(--night-2);border:1px solid var(--night-line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.njnpm .flow .k{font-size:12px;font-weight:600;letter-spacing:.08em;color:#7DB8F5;text-transform:uppercase}
+.njnpm .flow h3{font-size:19px;font-weight:600;color:#fff}
+.njnpm .flow p{font-size:14px;color:#A9B4C6}
+.njnpm .flow .ring{width:48px;height:48px;border-radius:14px;background:rgba(22,125,228,.16);display:flex;align-items:center;justify-content:center;color:#7DB8F5}
+.njnpm .flow .ring svg{width:24px;height:24px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.njnpm .pulse{height:2px;border-radius:2px;margin-top:auto;background:linear-gradient(90deg,rgba(125,184,245,0),#7DB8F5,rgba(125,184,245,0));background-size:200% 100%}
+@media (prefers-reduced-motion:no-preference){.njnpm .pulse{animation:njp-flow 2.4s linear infinite}}
+@keyframes njp-flow{from{background-position:200% 0}to{background-position:0 0}}
+.njnpm .cta{border-radius:32px;padding:clamp(28px,5vw,56px);display:grid;grid-template-columns:minmax(0,1.3fr) auto;gap:28px;align-items:center;background:linear-gradient(135deg,#EEF4FF 0%,#F5F7FA 60%);position:relative;overflow:hidden;isolation:isolate}
+.njnpm .cta::before{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(to right,#DCE6F3 1px,transparent 1px),linear-gradient(to bottom,#DCE6F3 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:linear-gradient(90deg,transparent 30%,#000);mask-image:linear-gradient(90deg,transparent 30%,#000)}
+@media (max-width:820px){.njnpm .cta{grid-template-columns:minmax(0,1fr)}}
+.njnpm .cta h2{font-size:clamp(24px,3vw,34px);font-weight:700;line-height:1.15;margin-bottom:10px}
+.njnpm .cta p{color:var(--ink-2);font-size:16px;max-width:560px}
+.njnpm .cta-actions{display:flex;gap:12px;flex-wrap:wrap}
+.njnpm .d-hero .wrap{padding-block:20px 64px}
+.njnpm .d-grid{margin-top:24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+@media (max-width:980px){.njnpm .d-grid{grid-template-columns:minmax(0,1fr);gap:24px}}
+.njnpm .stage{position:relative;aspect-ratio:1/1;max-width:540px;width:100%;justify-self:center;display:flex;align-items:center;justify-content:center}
+.njnpm .stage .halo{position:absolute;inset:4%;border-radius:50%;background:radial-gradient(circle at 50% 50%,#D6E7FD 0%,#EAF2FF 42%,rgba(238,244,255,0) 70%)}
+.njnpm .stage .ring{position:absolute;border-radius:50%;border:1px dashed #BFD6F5}
+.njnpm .stage .r1{inset:9%}
+.njnpm .stage .r2{inset:20%;border-style:solid;border-color:#D8E6F8}
+.njnpm .stage img.hero-img{position:relative;width:68%;height:auto;filter:drop-shadow(0 30px 30px rgba(15,23,42,.28))}
+@media (prefers-reduced-motion:no-preference){.njnpm .stage img.hero-img{animation:njp-float 7s ease-in-out infinite}}
+@keyframes njp-float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.njnpm .stage .model{position:absolute;top:8%;left:6%;font-size:12.5px;padding:6px 12px}
+.njnpm .tick{position:absolute;background:#fff;border-radius:14px;box-shadow:var(--card);padding:10px 14px;font-size:12.5px;line-height:1.35;display:flex;align-items:center;gap:10px}
+.njnpm .tick b{font-weight:600}
+.njnpm .tick .dot{width:30px;height:30px;border-radius:10px;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center}
+.njnpm .tick .dot svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.njnpm .t1{right:0;top:20%}
+.njnpm .t2{left:0;bottom:16%}
+@media (max-width:520px){.njnpm .tick{font-size:11px;padding:8px 10px}
+.njnpm .tick .dot{display:none}}
+.njnpm .d-info{display:flex;flex-direction:column;gap:20px;min-width:0}
+.njnpm .badges{display:flex;gap:8px;flex-wrap:wrap}
+.njnpm .badges span{font-size:12.5px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--bg2);color:var(--ink-2)}
+.njnpm .badges .cat{background:var(--blue-soft);color:var(--blue-ink);font-weight:600}
+.njnpm .d-info h1{font-size:clamp(34px,4.6vw,54px);line-height:1.05;font-weight:800;letter-spacing:-.035em}
+.njnpm .d-info h1 small{display:block;font-size:.4em;font-weight:600;letter-spacing:0;color:var(--ink-3);margin-top:12px;line-height:1.4}
+.njnpm .lead{font-size:17px;line-height:1.65;color:var(--ink-2)}
+.njnpm .figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-radius:20px;box-shadow:0 0 0 1px var(--line);overflow:hidden;background:#fff}
+.njnpm .figs div{padding:16px;border-left:1px solid var(--line)}
+.njnpm .figs div:first-child{border-left:0}
+@media (max-width:620px){.njnpm .figs{grid-template-columns:repeat(2,minmax(0,1fr))}
+.njnpm .figs div:nth-child(3){border-left:0}
+.njnpm .figs div:nth-child(n+3){border-top:1px solid var(--line)}}
+.njnpm .figs b{display:block;font-size:22px;font-weight:700;line-height:1.15;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.njnpm .figs span{font-size:12px;color:var(--ink-3);line-height:1.4;display:block;margin-top:4px}
+.njnpm .d-actions{display:flex;gap:12px;flex-wrap:wrap}
+.njnpm .small{font-size:13px;color:var(--ink-3)}
+.njnpm .sec-nav{position:sticky;top:var(--top);z-index:40;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
+.njnpm .sec-nav .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:10px;align-items:center}
+.njnpm .sec-nav .wrap::-webkit-scrollbar{display:none}
+.njnpm .sec-nav button{border:0;background:transparent;padding:0 16px;min-height:40px;border-radius:999px;font-size:14px;font-weight:500;white-space:nowrap;cursor:pointer;color:var(--ink-2)}
+.njnpm .sec-nav button:hover{background:var(--bg2)}
+.njnpm .sec-nav button.on{background:var(--ink);color:#fff}
+.njnpm .sec-nav .sp{flex:1}
+.njnpm .sec-nav .mini{display:none;font-size:13px;font-weight:600;white-space:nowrap;align-items:center;gap:8px;color:var(--ink)}
+@media (min-width:900px){.njnpm .sec-nav .mini{display:inline-flex}}
+.njnpm .sec{padding-block:88px 0;scroll-margin-top:calc(var(--top) + 76px)}
+.njnpm .bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+.njnpm .tile{border-radius:24px;background:#fff;box-shadow:var(--card);padding:28px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.njnpm .tile .ic{width:48px;height:48px;border-radius:14px;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.njnpm .tile .ic svg{width:24px;height:24px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.njnpm .tile h3{font-size:19px;font-weight:600;line-height:1.3}
+.njnpm .tile p{font-size:14.5px;color:var(--ink-2)}
+.njnpm .tile ul{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14px;color:var(--ink-2)}
+.njnpm .tile li{display:flex;gap:10px}
+.njnpm .tile li::before{content:"";flex-shrink:0;width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--blue-soft) url("assets/tick-blue.svg") center/11px no-repeat}
+.njnpm .t-wide{grid-column:span 4}
+.njnpm .t-tall,.njnpm .t-third{grid-column:span 2}
+.njnpm .t-half{grid-column:span 3}
+@media (max-width:1000px){.njnpm .t-wide{grid-column:span 6}
+.njnpm .t-tall,.njnpm .t-third,.njnpm .t-half{grid-column:span 3}}
+@media (max-width:680px){.njnpm .bento{grid-template-columns:minmax(0,1fr)}
+.njnpm .t-wide,.njnpm .t-tall,.njnpm .t-third,.njnpm .t-half{grid-column:auto}}
+.njnpm .t-live{background:var(--night);color:#fff;box-shadow:none;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:28px;align-items:center}
+@media (max-width:820px){.njnpm .t-live{grid-template-columns:minmax(0,1fr)}}
+.njnpm .t-live h3{color:#fff}
+.njnpm .t-live p{color:#A9B4C6}
+.njnpm .t-live .ic{background:rgba(22,125,228,.18);color:#7DB8F5}
+.njnpm .panel{background:var(--night-2);border:1px solid var(--night-line);border-radius:18px;padding:16px 16px 12px;min-width:0}
+.njnpm .panel-head{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#A9B4C6;margin-bottom:12px;gap:10px}
+.njnpm .panel-head b{color:#fff;font-weight:600;font-variant-numeric:tabular-nums;font-size:13px}
+.njnpm .panel-head .lv{display:inline-flex;align-items:center;gap:6px}
+.njnpm .panel-head .lv i{width:7px;height:7px;border-radius:50%;background:#34D399}
+.njnpm .bars{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;height:140px;align-items:end}
+.njnpm .bar{height:100%;display:flex;align-items:flex-end;border-radius:6px;background:rgba(255,255,255,.04)}
+.njnpm .bar i{display:block;width:100%;border-radius:6px;background:linear-gradient(180deg,#4B9BEE,#167DE4);transition:height .9s var(--e)}
+.njnpm .bar.hot i{background:linear-gradient(180deg,#FBBF24,#D97706)}
+.njnpm .bars-x{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;margin-top:6px;font-size:10px;color:#8C97AA;text-align:center;font-variant-numeric:tabular-nums}
+.njnpm .panel-foot{margin-top:10px;display:flex;justify-content:space-between;gap:10px;font-size:11.5px;color:#8C97AA;flex-wrap:wrap;min-height:18px}
+.njnpm .panel-foot .al{color:#FBBF24}
+.njnpm .uc{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:24px;align-items:stretch}
+@media (max-width:900px){.njnpm .uc{grid-template-columns:minmax(0,1fr)}}
+.njnpm .uc-tabs{display:flex;flex-direction:column;gap:8px}
+@media (max-width:900px){.njnpm .uc-tabs{flex-direction:row;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px}
+.njnpm .uc-tabs::-webkit-scrollbar{display:none}}
+.njnpm .uc-tab{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:18px;border:0;background:var(--bg2);text-align:left;cursor:pointer;min-height:64px;transition:background .15s, box-shadow .15s}
+@media (max-width:900px){.njnpm .uc-tab{flex:0 0 auto;padding:12px 16px;min-height:52px}}
+.njnpm .uc-tab:hover{background:#EBF0F6}
+.njnpm .uc-tab svg{width:24px;height:24px;stroke:var(--blue);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.njnpm .uc-tab b{display:block;font-size:15px;font-weight:600}
+.njnpm .uc-tab small{display:block;font-size:12.5px;color:var(--ink-3)}
+@media (max-width:900px){.njnpm .uc-tab small{display:none}}
+.njnpm .uc-tab[aria-selected="true"]{background:#fff;box-shadow:var(--card-hi)}
+.njnpm .uc-pane{border-radius:24px;background:linear-gradient(135deg,#EEF4FF 0%,#F5F7FA 60%);padding:clamp(24px,4vw,40px);display:flex;flex-direction:column;gap:18px}
+.njnpm .uc-pane h3{font-size:clamp(22px,2.6vw,28px);font-weight:700;line-height:1.2}
+.njnpm .uc-pane > p{font-size:16px;color:var(--ink-2);max-width:560px}
+.njnpm .uc-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:560px){.njnpm .uc-cols{grid-template-columns:minmax(0,1fr)}}
+.njnpm .uc-box{background:#fff;border-radius:16px;padding:18px;box-shadow:0 0 0 1px rgba(15,23,42,.05)}
+.njnpm .uc-box h4{margin:0 0 10px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.njnpm .uc-box ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.njnpm .uc-box li{display:flex;gap:10px}
+.njnpm .uc-box li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);margin-top:9px;flex-shrink:0}
+.njnpm .outs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-radius:24px;box-shadow:var(--card);background:#fff;overflow:hidden}
+.njnpm .out{padding:28px 24px;border-left:1px solid var(--line-2);display:flex;flex-direction:column;gap:10px}
+.njnpm .out:first-child{border-left:0}
+@media (max-width:900px){.njnpm .outs{grid-template-columns:repeat(2,minmax(0,1fr))}
+.njnpm .out:nth-child(3){border-left:0}
+.njnpm .out:nth-child(n+3){border-top:1px solid var(--line-2)}}
+@media (max-width:520px){.njnpm .outs{grid-template-columns:minmax(0,1fr)}
+.njnpm .out{border-left:0!important}
+.njnpm .out:nth-child(n+2){border-top:1px solid var(--line-2)}}
+.njnpm .out svg{width:26px;height:26px;stroke:var(--blue);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.njnpm .out h3{font-size:16px;font-weight:600}
+.njnpm .out p{font-size:13.5px;color:var(--ink-2)}
+.njnpm .ds{border-radius:32px;background:var(--night);color:#fff;padding:clamp(28px,5vw,56px);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;align-items:center;position:relative;overflow:hidden;isolation:isolate}
+.njnpm .ds::after{content:"";position:absolute;z-index:-1;width:520px;height:520px;left:-200px;bottom:-300px;border-radius:50%;background:radial-gradient(circle,rgba(22,125,228,.32),transparent 65%)}
+@media (max-width:860px){.njnpm .ds{grid-template-columns:minmax(0,1fr)}}
+.njnpm .ds .eyebrow{color:#7DB8F5}
+.njnpm .ds h2{font-size:clamp(24px,3vw,34px);font-weight:700;line-height:1.15;margin:12px 0 10px;color:#fff}
+.njnpm .ds p{color:#A9B4C6;font-size:15.5px;max-width:520px}
+.njnpm .ds .inc{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.njnpm .ds .inc span{font-size:12.5px;color:#D5DCE7;border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:4px 12px}
+.njnpm .ds .doc{justify-self:center;width:min(250px,80%);aspect-ratio:1/1.3;border-radius:16px;background:#fff;color:var(--ink);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);rotate:-3deg}
+.njnpm .ds .doc img.lg{width:74px;height:26px;object-fit:contain;object-position:left}
+.njnpm .ds .doc .dimg{flex:1;border-radius:10px;background:radial-gradient(120% 90% at 50% 100%,#E6EEF8 0%,#F5F7FA 55%);display:flex;align-items:center;justify-content:center}
+.njnpm .ds .doc .dimg img{width:62%;height:auto}
+.njnpm .ds .doc b{font-size:13px;line-height:1.3}
+.njnpm .ds .doc i{display:block;height:6px;border-radius:3px;background:#E8ECF2}
+.njnpm .ds .doc i.s{width:60%}
+.njnpm .ds-actions{margin-top:24px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.njnpm .ds-actions .meta{font-size:13px;color:#A9B4C6}
+.njnpm .ds .ask{color:#7DB8F5;font-weight:500}
+.njnpm .related{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.njnpm .rel{text-align:left;border:0;padding:0;cursor:pointer;width:100%}
+.njnpm .rel .cfoot{align-items:center}
+.njnpm .rel .find{font-size:14px;font-weight:600;color:var(--blue-ink)}
+@media (prefers-reduced-motion:reduce){.njnpm,.njnpm *{transition:none!important;scroll-behavior:auto!important}}
+.njnpm .dl-req{font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="njnpm">
+<article aria-label="NPM-12 Smart Power Monitor Hub">
+  <div class="d-hero gridbg">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span>
+        <a href="/products">Products</a><span aria-hidden="true">/</span>
+        <a href="/products?cat=energy-power">Energy &amp; Power</a><span aria-hidden="true">/</span>
+        <span aria-current="page">Smart Power Monitor Hub</span>
+      </nav>
+      <div class="d-grid">
+        <div class="stage">
+          <div class="halo"></div><div class="ring r1"></div><div class="ring r2"></div>
+          <img class="hero-img" src="assets/npm-12.webp" width="800" height="789" alt="NPM-12 Smart Power Monitor Hub, front view">
+          <span class="model">NPM-12</span>
+          <div class="tick t1"><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></span><span><b>12 circuits</b><br>from one hub</span></div>
+          <div class="tick t2"><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span><span><b>No shutdown</b><br>clip-on sensors</span></div>
+        </div>
+        <div class="d-info">
+          <div class="badges"><span class="cat">Energy &amp; Power</span><span>Works with IoTRICs</span><span>LPWAN wireless</span></div>
+          <h1>Smart Power Monitor Hub<small>NPM-12 · 12 current + 3 voltage channels</small></h1>
+          <p class="lead">See exactly where your power goes. One DIN-rail hub measures every critical circuit in a distribution board and sends it to IoTRICs, so you can compare, allocate and bill energy circuit by circuit.</p>
+          <div class="figs">
+            <div><b>12 + 3</b><span>current and voltage channels</span></div>
+            <div><b>±1%</b><span>active energy accuracy</span></div>
+            <div><b>4,000 A</b><span>max. with Rogowski coils</span></div>
+            <div><b>12 mo</b><span>energy data kept on board</span></div>
+          </div>
+          <div class="d-actions">
+            <a href="/contact" class="nbtn"><span class="nb-fill" aria-hidden="true"><svg viewBox="0 0 14 16" aria-hidden="true"><g fill="currentColor"><circle class="dd d0" cx="2" cy="2" r="1"/><circle class="dd d1" cx="5" cy="5" r="1"/><circle class="dd d2" cx="8" cy="8" r="1"/><circle class="dd d3" cx="5" cy="11" r="1"/><circle class="dd d4" cx="2" cy="14" r="1"/><circle class="dd d1" cx="6" cy="2" r="1"/><circle class="dd d2" cx="9" cy="5" r="1"/><circle class="dd d3" cx="12" cy="8" r="1"/><circle class="dd d4" cx="9" cy="11" r="1"/><circle class="dd d0" cx="6" cy="14" r="1"/></g></svg></span><span class="nb-l">Discuss your project</span></a>
+            <button type="button" class="gbtn" data-najhum-action="download-datasheet"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Datasheet (PDF)</button>
+          </div>
+          <p class="small">Part of our energy monitoring solutions, delivered as a SolaaS subscription or a PaaS platform licence. <a href="/contact">Book a demo →</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="sec-nav" aria-label="On this page">
+    <div class="wrap" id="secNav">
+      <button type="button" data-to="features" class="on">Features</button>
+      <button type="button" data-to="usecases">Use cases</button>
+      <button type="button" data-to="outcomes">In IoTRICs</button>
+      <button type="button" data-to="datasheet">Datasheet</button>
+      <span class="sp"></span>
+      <span class="mini"><span class="model">NPM-12</span>Smart Power Monitor Hub</span>
+    </div>
+  </nav>
+
+  <section class="wrap sec" id="features" aria-labelledby="featH">
+    <div class="sec-head"><span class="eyebrow">Key features</span><h2 class="h2" id="featH">Every circuit, measured from one hub</h2></div>
+    <div class="bento">
+      <div class="tile t-wide t-live">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10 M10 20V4 M16 20v-7 M22 20H2"/></svg></span>
+          <h3>Circuit-level visibility</h3>
+          <p>Up to 12 single-phase circuits, 4 three-phase circuits or a mix, each with its own power, energy and power-factor readings.</p>
+        </div>
+        <div class="panel" role="img" aria-label="Illustrative chart of live load on 12 channels">
+          <div class="panel-head"><span class="lv"><i></i>Live load · DB-02</span><b id="totKw">— kW</b></div>
+          <div class="bars" id="bars"></div>
+          <div class="bars-x"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span></div>
+          <div class="panel-foot"><span class="al" id="alert"></span><span>Illustrative data</span></div>
+        </div>
+      </div>
+      <div class="tile t-tall">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg></span>
+        <h3>Power quality, not just kWh</h3>
+        <ul><li>Active, reactive and apparent power</li><li>Harmonics (THD) on voltage and current</li><li>Three-phase voltage unbalance</li></ul>
+      </div>
+      <div class="tile t-third">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z"/></svg></span>
+        <h3>Installs without a shutdown</h3>
+        <p>The hub clips onto a DIN rail and the sensors clip around live conductors. Our team installs and configures it for you.</p>
+      </div>
+      <div class="tile t-third">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16 M4 12h10 M4 18h16 M18 10v4"/></svg></span>
+        <h3>Sized to any board</h3>
+        <p>Split-core CTs from 100 A, or Rogowski coils up to 4,000 A for main incomers.</p>
+      </div>
+      <div class="tile t-third">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
+        <h3>Alarms before trips</h3>
+        <p>Overload, out-of-range and power-failure alerts go straight to the right people.</p>
+      </div>
+      <div class="tile t-half">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></span>
+        <h3>Built for the electrical room</h3>
+        <p>Industrial-grade insulation and fast sampling give dependable readings in busy distribution boards.</p>
+      </div>
+      <div class="tile t-half">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v10H4z M8 11h3 M8 14h8"/></svg></span>
+        <h3>No data gaps</h3>
+        <p>Energy totals and min/max values stay on the hub for a year, and readings reach IoTRICs wirelessly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="usecases" aria-labelledby="ucH">
+    <div class="sec-head"><span class="eyebrow">Use cases</span><h2 class="h2" id="ucH">Where teams put it to work</h2></div>
+    <div class="uc">
+      <div class="uc-tabs" role="tablist" aria-label="Use cases" id="ucTabs"></div>
+      <div class="uc-pane" role="tabpanel" id="ucPane" tabindex="0"></div>
+    </div>
+  </section>
+
+  <section class="wrap sec" id="outcomes" aria-labelledby="outH">
+    <div class="sec-head"><span class="eyebrow">What you see in IoTRICs</span><h2 class="h2" id="outH">Readings become decisions</h2><p class="sub">Every reading lands in IoTRICs as live dashboards and reports. We can also pass the data to your own platform through an API.</p></div>
+    <div class="outs" id="outList"></div>
+  </section>
+
+  <section class="wrap sec" id="datasheet" aria-labelledby="dsH">
+    <div class="ds">
+      <div>
+        <span class="eyebrow">Technical details</span>
+        <h2 id="dsH">Full specifications are in the datasheet</h2>
+        <p>Electrical ratings, current sensor options, wireless details, dimensions and installation notes, all in one PDF.</p>
+        <div class="inc"><span>Measurement &amp; accuracy</span><span>CT &amp; Rogowski options</span><span>Wireless &amp; power</span><span>Dimensions</span></div>
+        <div class="ds-actions">
+          <button type="button" class="nbtn light" data-najhum-action="download-datasheet"><span class="nb-fill" aria-hidden="true"><svg viewBox="0 0 14 16" aria-hidden="true"><g fill="currentColor"><circle class="dd d0" cx="2" cy="2" r="1"/><circle class="dd d1" cx="5" cy="5" r="1"/><circle class="dd d2" cx="8" cy="8" r="1"/><circle class="dd d3" cx="5" cy="11" r="1"/><circle class="dd d4" cx="2" cy="14" r="1"/><circle class="dd d1" cx="6" cy="2" r="1"/><circle class="dd d2" cx="9" cy="5" r="1"/><circle class="dd d3" cx="12" cy="8" r="1"/><circle class="dd d4" cx="9" cy="11" r="1"/><circle class="dd d0" cx="6" cy="14" r="1"/></g></svg></span><span class="nb-l">Download datasheet</span></button>
+          <span class="meta">PDF · 3 pages · 0.6 MB</span>
+        </div>
+        <p style="margin-top:16px;font-size:14px">Need drawings or a sample report? <a class="ask" href="/contact">Ask our team</a></p>
+      </div>
+      <div class="doc" aria-hidden="true">
+        <img class="lg" src="assets/najhum-logo.webp" width="405" height="145" alt="">
+        <b>Smart Power Monitor Hub<br><span style="color:var(--ink-3);font-weight:500">NPM-12 · Product datasheet</span></b>
+        <div class="dimg"><img src="assets/npm-12.webp" width="800" height="789" alt=""></div>
+        <i></i><i class="s"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- The website renders only admin-selected related products here. -->
+  <section data-najhum-slot="related-products"></section>
+
+  <div class="wrap" style="padding-block:88px 72px">
+    <div class="cta">
+      <div><h2>Metering a building or a whole portfolio?</h2><p>Send us your single-line diagram or panel schedule. We’ll design the metering solution and show the result live in IoTRICs.</p></div>
+      <div class="cta-actions">
+        <a href="/contact" class="nbtn"><span class="nb-fill" aria-hidden="true"><svg viewBox="0 0 14 16" aria-hidden="true"><g fill="currentColor"><circle class="dd d0" cx="2" cy="2" r="1"/><circle class="dd d1" cx="5" cy="5" r="1"/><circle class="dd d2" cx="8" cy="8" r="1"/><circle class="dd d3" cx="5" cy="11" r="1"/><circle class="dd d4" cx="2" cy="14" r="1"/><circle class="dd d1" cx="6" cy="2" r="1"/><circle class="dd d2" cx="9" cy="5" r="1"/><circle class="dd d3" cx="12" cy="8" r="1"/><circle class="dd d4" cx="9" cy="11" r="1"/><circle class="dd d0" cx="6" cy="14" r="1"/></g></svg></span><span class="nb-l">Discuss your project</span></a>
+        <a href="/contact" class="gbtn">Book a demo</a>
+      </div>
+    </div>
+  </div>
+</article>
+</div>
+<script>
+(function(){
+  var root = document.querySelector('.njnpm');
+  if (!root || root.dataset.ready) return;
+  root.dataset.ready = '1';
+  var $ = function(s){return root.querySelector(s);};
+  var $$ = function(s){return Array.prototype.slice.call(root.querySelectorAll(s));};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function path(d){return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="'+d+'"/></svg>';}
+  function icoSvg(d,cls){return '<svg class="'+(cls||'ico')+'" viewBox="0 0 24 24" aria-hidden="true"><path d="'+d+'"/></svg>';}
+  var ARROW='M5 12h14M13 6l6 6-6 6', DL='M12 4v11M7 10l5 5 5-5M5 20h14', X='M6 6l12 12M18 6L6 18';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var UC = [
+    {k:'commercial',t:'Commercial buildings',s:'Offices, malls and mixed-use towers',i:'M4 21V3h16v18 M9 7h1 M14 7h1 M9 11h1 M14 11h1 M10 21v-4h4v4',
+     h:'Split one board into tenants, floors and systems',p:'Meter tenant feeders, HVAC, lighting and lifts from the main and floor boards, then allocate cost fairly and catch energy used after hours.',
+     m:['Tenant and floor feeders','HVAC plant and chillers','Lighting and lift circuits'],o:['Monthly cost allocation by tenant','After-hours waste flagged','Evidence for energy audits']},
+    {k:'industrial',t:'Industrial plants',s:'Factories, workshops and process lines',i:'M2 21V11l6 4V11l6 4V7l8 4v10z M2 21h20',
+     h:'See what every machine and line consumes',p:'Track consumption by machine or production line, watch power factor and harmonics, and get overload alerts before a breaker trips.',
+     m:['Production lines and machines','Compressors, pumps and motors','Power factor and harmonics'],o:['Energy cost per line or shift','Early warning on overloads','Data for power-factor correction']},
+    {k:'datacentre',t:'Data centres',s:'Server rooms and colocation halls',i:'M4 4h16v6H4z M4 14h16v6H4z M8 7h.01 M8 17h.01',
+     h:'Know the load on every distribution circuit',p:'Follow the load on each distribution and cooling circuit, check phase balance and catch rising current before it becomes a capacity problem.',
+     m:['Rack and PDU feeder circuits','Cooling units','Phase balance per board'],o:['Capacity headroom per circuit','Phase imbalance alerts','IT vs cooling energy split']},
+    {k:'residential',t:'Multi-tenant residential',s:'Apartments, staff housing and compounds',i:'M3 21V9l9-6 9 6v12 M9 21v-6h6v6',
+     h:'Fair, accurate billing for every unit',p:'Measure each apartment or common-area circuit and produce monthly consumption figures for billing, without fitting a meter in every unit.',
+     m:['Apartment or villa feeders','Common areas and amenities','Pumps, lighting and car parks'],o:['Per-unit monthly consumption','Common-area cost visibility','Fewer billing disputes']}
+  ];
+  var ucIdx=0;
+  function renderUC(){
+    $('#ucTabs').innerHTML = UC.map(function(u,i){return '<button type="button" class="uc-tab" role="tab" id="uct-'+u.k+'" aria-controls="ucPane" aria-selected="'+(i===ucIdx)+'" tabindex="'+(i===ucIdx?0:-1)+'" data-uc="'+i+'">'+path(u.i)+'<span style="display:block;min-width:0"><b>'+u.t+'</b><small>'+u.s+'</small></span></button>';}).join('');
+    var u=UC[ucIdx], pane=$('#ucPane');
+    pane.setAttribute('aria-labelledby','uct-'+u.k);
+    pane.innerHTML = '<span class="eyebrow">'+u.t+'</span><h3>'+u.h+'</h3><p>'+u.p+'</p><div class="uc-cols"><div class="uc-box"><h4>What you monitor</h4><ul>'+u.m.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div><div class="uc-box"><h4>What you get</h4><ul>'+u.o.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div></div>';
+  }
+  $('#ucTabs').addEventListener('click',function(e){ var b=e.target.closest('[data-uc]'); if(!b) return; ucIdx=+b.getAttribute('data-uc'); renderUC(); $('#uct-'+UC[ucIdx].k).focus(); });
+  $('#ucTabs').addEventListener('keydown',function(e){
+    var d=(e.key==='ArrowDown'||e.key==='ArrowRight')?1:(e.key==='ArrowUp'||e.key==='ArrowLeft')?-1:0; if(!d) return;
+    e.preventDefault(); ucIdx=(ucIdx+d+UC.length)%UC.length; renderUC(); $('#uct-'+UC[ucIdx].k).focus();
+  });
+  renderUC();
+
+  var OUT=[
+    ['Consumption by circuit','Live and historical kWh for each of the 12 channels, by hour, day or month.','M4 20V10 M10 20V4 M16 20v-7 M22 20H2'],
+    ['Cost allocation','Split energy cost by tenant or circuit for billing and budgets.','M12 2v20 M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'],
+    ['Power quality trends','Power factor, harmonics and phase unbalance over time, to spot problems early.','M2 12h4l3-8 4 16 3-8h6'],
+    ['Smart alarms','Overload, out-of-range and power-failure alerts sent to the right people.','M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.7 21a2 2 0 0 1-3.4 0']
+  ];
+  $('#outList').innerHTML = OUT.map(function(o){return '<div class="out">'+path(o[2])+'<h3>'+o[0]+'</h3><p>'+o[1]+'</p></div>';}).join('');
+
+
+  // Illustrative live channel widget (labelled "Illustrative data" on the page)
+  var base=[4.2,3.1,6.8,2.4,5.5,7.4,3.6,2.0,4.8,6.1,1.4,3.3], MAX=10, hot=-1, step=0;
+  $('#bars').innerHTML = base.map(function(){return '<div class="bar"><i style="height:0%"></i></div>';}).join('');
+  function tick(){
+    var cur = base.map(function(b,i){ return i===hot ? 9.3 : b*(0.85+Math.random()*0.3); });
+    $$('#bars .bar').forEach(function(el,i){ el.querySelector('i').style.height=(cur[i]/MAX*100).toFixed(1)+'%'; el.classList.toggle('hot',i===hot); });
+    $('#totKw').textContent = cur.reduce(function(a,b){return a+b;},0).toFixed(1)+' kW';
+    $('#alert').textContent = hot>=0 ? 'Overload warning · CH'+(hot+1)+' at '+cur[hot].toFixed(1)+' kW' : 'All circuits within limits';
+  }
+  if(reduce){ hot=5; tick(); }
+  else {
+    tick();
+    var timer=setInterval(function(){ if(!document.body.contains(root)){ clearInterval(timer); return; } step++; hot=(step%6===3||step%6===4)?5:-1; tick(); },1600);
+  }
+
+  // Section nav
+  var secBtns=$$('#secNav button');
+  secBtns.forEach(function(b){ b.addEventListener('click',function(){ var s=root.querySelector('#'+b.getAttribute('data-to')); if(s) s.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); }); });
+  var navEl=$('.sec-nav');
+  function spy(){
+    var line=navEl.getBoundingClientRect().bottom+40, cur=secBtns[0];
+    secBtns.forEach(function(b){ var s=root.querySelector('#'+b.getAttribute('data-to')); if(s && s.getBoundingClientRect().top<line) cur=b; });
+    secBtns.forEach(function(b){ var on=b===cur; if(b.classList.contains('on')!==on){ b.classList.toggle('on',on); var w=b.parentNode; if(on && w.scrollWidth>w.clientWidth) w.scrollTo({left:b.offsetLeft-24,behavior:'smooth'}); } });
+  }
+  window.addEventListener('scroll',spy,{passive:true});
+  spy();
+})();
+</script>
+</body>
+</html>

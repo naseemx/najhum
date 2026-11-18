@@ -18,12 +18,13 @@ export default async function ProductsList() {
     createdAt: Date;
   }> = [];
 
+  let unavailable=false;
   try {
     products = await prisma.product.findMany({
       orderBy: { createdAt: 'desc' },
     });
   } catch (error) {
-    console.error('Failed to load products in admin:', error);
+    unavailable=true;console.error('Failed to load products in admin:', error);
   }
 
   return (
@@ -32,7 +33,7 @@ export default async function ProductsList() {
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Products</h1>
           <p className="mt-1 text-sm text-slate-500">
-            Manage your individual products and select which platforms showcase them.
+            Upload HTML/ZIP product pages, manage filters, attach PDFs and choose related products.
           </p>
         </div>
         <Link
@@ -44,6 +45,8 @@ export default async function ProductsList() {
         </Link>
       </div>
 
+      {unavailable&&<p role="alert" className="rounded-xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-900">Product storage is unavailable. Run database/product-html-import.sql in Supabase before using this editor.</p>}
+      <Link href="/admin/products/taxonomy" className="inline-flex items-center gap-2 text-sm font-semibold text-primary">Manage categories & filters →</Link>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {products.map((product) => (
           <div

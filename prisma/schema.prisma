@@ -83,6 +83,19 @@ model PageContent {
 
 model Product {
   id          String   @id @default(cuid())
+  slug String? @unique
+  modelCode String @default("")
+  contentMode String @default("LEGACY")
+  publishedRevisionId String?
+  seoTitle String @default("")
+  seoDescription String @default("")
+  socialImage String @default("")
+  socialImageAlt String @default("")
+  revisions ProductRevision[]
+  categoryAssignments ProductCategoryAssignment[]
+  filterAssignments ProductFilterAssignment[]
+  relatedProducts RelatedProduct[] @relation("RelatedSource")
+  relatedTo RelatedProduct[] @relation("RelatedTarget")
   name        String
   description String
   imageUrl    String?
@@ -95,6 +108,68 @@ model Product {
   updatedAt   DateTime @updatedAt
   solutions   String[]
   brochureUrl String?
+}
+
+model ProductRevision {
+ id String @id @default(cuid())
+ productId String
+ number Int
+ document Json
+ createdBy String
+ createdAt DateTime @default(now())
+ product Product @relation(fields:[productId],references:[id],onDelete:Cascade)
+ @@unique([productId,number])
+ @@index([productId,createdAt])
+}
+model ProductCategory {
+ id String @id @default(cuid())
+ name String
+ slug String @unique
+ icon String @default("grid")
+ order Int @default(0)
+ isActive Boolean @default(true)
+ products ProductCategoryAssignment[]
+}
+model ProductFilterGroup {
+ id String @id @default(cuid())
+ name String
+ slug String @unique
+ order Int @default(0)
+ isActive Boolean @default(true)
+ options ProductFilterOption[]
+}
+model ProductFilterOption {
+ id String @id @default(cuid())
+ groupId String
+ name String
+ slug String
+ order Int @default(0)
+ isActive Boolean @default(true)
+ group ProductFilterGroup @relation(fields:[groupId],references:[id],onDelete:Cascade)
+ products ProductFilterAssignment[]
+ @@unique([groupId,slug])
+}
+model ProductCategoryAssignment {
+ productId String
+ categoryId String
+ product Product @relation(fields:[productId],references:[id],onDelete:Cascade)
+ category ProductCategory @relation(fields:[categoryId],references:[id],onDelete:Cascade)
+ @@id([productId,categoryId])
+}
+model ProductFilterAssignment {
+ productId String
+ optionId String
+ product Product @relation(fields:[productId],references:[id],onDelete:Cascade)
+ option ProductFilterOption @relation(fields:[optionId],references:[id],onDelete:Cascade)
+ @@id([productId,optionId])
+}
+model RelatedProduct {
+ sourceId String
+ targetId String
+ position Int @default(0)
+ source Product @relation("RelatedSource",fields:[sourceId],references:[id],onDelete:Cascade)
+ target Product @relation("RelatedTarget",fields:[targetId],references:[id],onDelete:Cascade)
+ @@id([sourceId,targetId])
 }
 
 model Customer {

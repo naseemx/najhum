@@ -11,6 +11,8 @@ interface BrochureDownloadButtonProps {
   className?: string;
   size?: "sm" | "md" | "lg";
   label?: string;
+  externalTriggerEvent?: string;
+  hideTrigger?: boolean;
 }
 
 export default function BrochureDownloadButton({
@@ -19,6 +21,8 @@ export default function BrochureDownloadButton({
   className = "",
   size = "md",
   label = "Download Brochure",
+  externalTriggerEvent,
+  hideTrigger=false,
 }: BrochureDownloadButtonProps) {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
@@ -61,6 +65,8 @@ export default function BrochureDownloadButton({
       setCooldown(0);
     }
   };
+
+  useEffect(()=>{if(!externalTriggerEvent)return;const trigger=()=>handleDownloadClick();window.addEventListener(externalTriggerEvent,trigger);return()=>window.removeEventListener(externalTriggerEvent,trigger);});
 
   const handleSendOtp = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -185,14 +191,14 @@ export default function BrochureDownloadButton({
 
   return (
     <>
-      <Button
+      {!hideTrigger&&<Button
         onClick={handleDownloadClick}
         variant="outline"
         size={size}
         className={`gap-2 ${className}`}
       >
         <Download className="w-4 h-4" /> {label}
-      </Button>
+      </Button>}
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">

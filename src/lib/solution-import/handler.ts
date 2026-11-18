@@ -10,9 +10,10 @@ import { z } from 'zod';
 import { metadataSchema, type ImportedDocument, MAX_UPLOAD } from './types';
 import { prisma } from '@/lib/db/prisma';
 import { saveImport } from './server';
+import { saveProductImport } from '@/lib/products/server';
 import { savePortfolioImport } from '@/lib/portfolio/import-server';
 
-export async function importHandler(req:NextRequest,id?:string,kind:'solutions'|'portfolio'='solutions') {
+export async function importHandler(req:NextRequest,id?:string,kind:'solutions'|'portfolio'|'products'='solutions') {
   try {
     const actor=await requireAdmin(req);requireSameOrigin(req);
     if(Number(req.headers.get('content-length'))>MAX_UPLOAD+1024*1024)throw apiErrors.badRequest('Maximum upload is 4 MB.');
@@ -24,7 +25,7 @@ export async function importHandler(req:NextRequest,id?:string,kind:'solutions'|
     try {
       let document:ImportedDocument;
       const write=async(bytes:Uint8Array,name:string,type:string)=>{
-        const ext=name.split('.').pop()!.toLowerCase();const key=`${kind==='portfolio'?'portfolio':'solutions'}/imports/${crypto.randomUUID()}.${ext}`;
+        const ext=name.split('.').pop()!.toLowerCase();const key=`${kind}/imports/${crypto.randomUUID()}.${ext}`;
         const file=new File([new Uint8Array(bytes)],name,{type});
         const provider=process.env.STORAGE_PROVIDER||'r2';
         if(provider==='vercel-blob'){const result=await put(key,file,{access:'public',addRandomSuffix:false});staged.push({key:result.url,provider});return {url:result.url,storageKey:result.url};}
@@ -34,7 +35,7 @@ export async function importHandler(req:NextRequest,id?:string,kind:'solutions'|
       if(files.length)document=await importPackage(files,metadata,write);
       else {
         if(!id)throw apiErrors.badRequest('Upload a responsive HTML file or ZIP.');
-        const revision=kind==='portfolio'?await prisma.portfolioRevision.findFirst({where:{projectId:id},orderBy:{number:'desc'}}):await prisma.solutionRevision.findFirst({where:{solutionId:id},orderBy:{number:'desc'}});
+        const revision=kind==='products'?await prisma.productRevision.findFirst({where:{productId:id},orderBy:{number:'desc'}}):kind==='portfolio'?await prisma.portfolioRevision.findFirst({where:{projectId:id},orderBy:{number:'desc'}}):await prisma.solutionRevision.findFirst({where:{solutionId:id},orderBy:{number:'desc'}});
         if(!revision)throw apiErrors.badRequest('Upload your first HTML package.');
         document={...(revision.document as unknown as ImportedDocument),metadata};
       }
@@ -60,7 +61,7 @@ export async function importHandler(req:NextRequest,id?:string,kind:'solutions'|
         edits.push(edit);
       }
       document=editAssets(document,edits);
-      const saved=await (kind==='portfolio'?savePortfolioImport:saveImport)(id,document,actor.sub,String(form.get('baseRevisionId')||''));
+      const saved=await (kind==='products'?saveProductImport:kind==='portfolio'?savePortfolioImport:saveImport)(id,document,actor.sub,String(form.get('baseRevisionId')||''));
       return NextResponse.json({...saved,warnings:document.warnings},{status:201});
     }catch(error){
       // Failed imports never replace the live version. Clean up assets uploaded by this attempt.
@@ -68,7 +69,7 @@ export async function importHandler(req:NextRequest,id?:string,kind:'solutions'|
       throw error;
     }
   }catch(error){
-    if(error instanceof Prisma.PrismaClientKnownRequestError && ['P2021','P2022'].includes(error.code)) return NextResponse.json({error:`Database setup is required. Run database/${kind==='portfolio'?'portfolio-html-import':'solution-html-import'}.sql in Supabase first.`},{status:503});
+    if(error instanceof Prisma.PrismaClientKnownRequestError && ['P2021','P2022'].includes(error.code)) return NextResponse.json({error:`Database setup is required. Run database/${kind==='products'?'product-html-import':kind==='portfolio'?'portfolio-html-import':'solution-html-import'}.sql in Supabase first.`},{status:503});
     if(error instanceof Prisma.PrismaClientKnownRequestError && error.code==='P2034') return NextResponse.json({error:'Another administrator saved this page. Reload before saving again.'},{status:409});
     if(error instanceof Error && !(typeof error==='object'&&'statusCode' in error))return NextResponse.json({error:error.message.includes('Unique constraint')?'That URL is already used. Choose another slug.':error.message},{status:400});
     return handleApiError(error);

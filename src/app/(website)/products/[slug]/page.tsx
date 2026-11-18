@@ -1,83 +1,14 @@
-import { formatPublicCopy, formatPublicText } from "@/lib/public-copy";
-import { notFound } from "next/navigation";
-import { getPublishedProductBySlug } from "@/lib/published-product";
-import { buildMetadata, pageSchema, plainSeoText, absoluteSiteUrl } from "@/lib/seo";
-import { generateSlug } from "@/lib/utils/slug";
-import StructuredData from "@/components/seo/StructuredData";
-import ProductDetailClient from "@/components/products/ProductDetailClient";
-import type { Metadata } from "next";
-
-export const dynamic = "force-dynamic";
-
-interface ProductPageProps {
-  params: Promise<{ slug: string }>;
-}
-
-export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const product = await getPublishedProductBySlug(slug);
-  if (!product) return buildMetadata({title:"Product not found",description:"This product is not available.",path:`/products/${encodeURIComponent(slug)}`,noIndex:true});
-  return buildMetadata({title:formatPublicText(product.name),description:formatPublicText(product.description),path:`/products/${generateSlug(product.name)||product.id}`,image:product.imageUrl,keywords:[formatPublicText(product.name),...product.platforms,"IoT hardware UAE","industrial sensors","Najhum products"]});
-}
-
-export default async function ProductDetailPage({ params }: ProductPageProps) {
-  const { slug } = await params;
-  const dbProduct = await getPublishedProductBySlug(slug);
-
-  if (!dbProduct) {
-    notFound();
-  }
-
-  // Parse features and details from DB only (no mock defaults)
-  const rawFeatures = dbProduct.features;
-  const featuresList = Array.isArray(rawFeatures)
-    ? rawFeatures.filter((f): f is string => typeof f === "string" && f.trim() !== "")
-    : [];
-
-  const rawDetails = (dbProduct.details && typeof dbProduct.details === "object")
-    ? (dbProduct.details as Record<string, unknown>)
-    : {};
-
-  const specsList = Array.isArray(rawDetails.specs)
-    ? (rawDetails.specs as Array<{ property: string; value: string; unit: string; remarks: string }>)
-    : [];
-
-  const applicationsList = Array.isArray(rawDetails.applications)
-    ? rawDetails.applications.filter((a): a is string => typeof a === "string" && a.trim() !== "")
-    : [];
-
-  const overviewText = typeof rawDetails.overview === "string" && rawDetails.overview.trim() !== ""
-    ? rawDetails.overview
-    : "";
-
-  const additionalImages = Array.isArray(rawDetails.images)
-    ? rawDetails.images.filter((img): img is string => typeof img === "string" && img.trim() !== "")
-    : [];
-
-  const allImages = Array.from(
-    new Set([dbProduct.imageUrl, ...additionalImages].filter((img): img is string => Boolean(img && img.trim() !== "")))
-  );
-
-  const modelCode = typeof rawDetails.model === "string" && rawDetails.model.trim() !== ""
-    ? rawDetails.model.trim()
-    : dbProduct.platforms?.[0]?.toUpperCase() || "Industrial Equipment";
-
-  const productData = {
-    id: dbProduct.id,
-    name: dbProduct.name,
-    model: modelCode,
-    shortDesc: dbProduct.description,
-    images: allImages,
-    brochureUrl: dbProduct.brochureUrl,
-    overview: overviewText,
-    features: featuresList,
-    specs: specsList,
-    applications: applicationsList,
-    environment: [],
-    reliability: [],
-    downloads: [],
-  };
-
-  const seo = {title:formatPublicText(dbProduct.name),description:formatPublicText(dbProduct.description),path:`/products/${generateSlug(dbProduct.name)||dbProduct.id}`};
-  return <><StructuredData data={pageSchema(seo,[],{"@type":"Product",name:seo.title,description:plainSeoText(seo.description),...(allImages.length?{image:allImages.map(image=>absoluteSiteUrl(image))}:{}),model:modelCode,brand:{"@type":"Brand",name:"Najhum"}})} /><ProductDetailClient product={formatPublicCopy(productData)} /></>;
-}
+import {notFound} from 'next/navigation';
+import type {Metadata} from 'next';
+import {prisma} from '@/lib/db/prisma';
+import {getPublishedProductBySlug} from '@/lib/published-product';
+import {buildMetadata,pageSchema,absoluteSiteUrl} from '@/lib/seo';
+import StructuredData from '@/components/seo/StructuredData';
+import ImportedProduct from '@/components/products/ImportedProduct';
+import {getCatalogProducts,getTaxonomy,publishedProducts} from '@/lib/products/catalog';
+import type {ImportedDocument} from '@/lib/solution-import/types';
+export const dynamic='force-dynamic';
+type Props={params:Promise<{slug:string}>};
+async function get(slug:string){const product=await getPublishedProductBySlug(slug);if(!product?.publishedRevisionId)return null;const saved=await prisma.productRevision.findFirst({where:{id:product.publishedRevisionId,productId:product.id}});return saved?{product,page:saved.document as unknown as ImportedDocument}:null;}
+export async function generateMetadata({params}:Props):Promise<Metadata>{const result=await get((await params).slug);if(!result)return {title:'Product not found',robots:{index:false,follow:false}};const m=result.page.metadata;const base=buildMetadata({title:m.seoTitle,description:m.metaDescription,path:`/products/${m.slug}`,image:m.socialImage||m.coverImage});return {...base,title:{absolute:m.seoTitle},openGraph:{...base.openGraph,title:m.seoTitle,images:m.socialImage?[{url:absoluteSiteUrl(m.socialImage),width:1200,height:630,alt:m.socialImageAlt||m.title}]:base.openGraph?.images}};}
+export default async function ProductPage({params}:Props){const result=await get((await params).slug);if(!result)notFound();const {product,page}=result,m=page.metadata;const [edges,products,tax]=await Promise.all([prisma.relatedProduct.findMany({where:{sourceId:product.id,target:publishedProducts},orderBy:{position:'asc'}}),getCatalogProducts(),getTaxonomy(true)]);const related=edges.map(edge=>products.find(p=>p.id===edge.targetId)).filter((p):p is typeof products[number]=>!!p);return <><StructuredData data={pageSchema({title:m.seoTitle,description:m.metaDescription,path:`/products/${m.slug}`},[],{'@type':'Product',name:m.title,model:m.modelCode,brand:{'@type':'Brand',name:'Najhum'},...(m.coverImage?{image:absoluteSiteUrl(m.coverImage)}:{})})}/><main className="min-h-screen pt-20"><ImportedProduct document={page} related={related} categories={tax.categories}/></main></>;}

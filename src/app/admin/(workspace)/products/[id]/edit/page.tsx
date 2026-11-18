@@ -1,45 +1,4 @@
-import { notFound } from 'next/navigation';
-import { prisma } from '@/lib/db/prisma';
-import ProductForm from '../../components/ProductForm';
-
-export const dynamic = 'force-dynamic';
-
-export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  
-  let product = null;
-  let availableSolutions: Array<{ slug: string; title: string }> = [];
-
-  try {
-    const [prod, solutions] = await Promise.all([
-      prisma.product.findUnique({
-        where: { id },
-      }),
-      prisma.solution.findMany({
-        select: { slug: true, title: true },
-        orderBy: { title: 'asc' },
-      }),
-    ]);
-    product = prod;
-    availableSolutions = solutions;
-  } catch (error) {
-    console.error('Failed to load product in admin:', error);
-  }
-
-  if (!product) {
-    notFound();
-  }
-
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">Edit Product: {product.name}</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Modify product details and choose which platforms to showcase it on.
-        </p>
-      </div>
-      
-      <ProductForm initialData={product} availableSolutions={availableSolutions} />
-    </div>
-  );
-}
+import {notFound} from 'next/navigation';
+import ImportEditor from '@/components/admin/solution-import/ImportEditor';
+import {getProductImportSession} from '@/lib/products/server';
+export default async function EditProduct({params}:{params:Promise<{id:string}>}){const session=await getProductImportSession((await params).id);if(!session)notFound();return <ImportEditor kind="products" initialSession={session}/>;}

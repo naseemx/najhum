@@ -65,6 +65,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if(folder==='product-documents'){
+      const bytes=new Uint8Array(await file.arrayBuffer());
+      if(file.size>4*1024*1024||file.type!=='application/pdf'||!file.name.toLowerCase().endsWith('.pdf')||String.fromCharCode(...bytes.slice(0,5))!=='%PDF-')return NextResponse.json({error:'Choose a valid PDF under 4 MB.'},{status:400});
+    }
     if(folder==='solution-media'){
       if(file.size>4*1024*1024)return NextResponse.json({error:'Solution images must be under 4 MB.'},{status:400});
       try{verifyAsset(new Uint8Array(await file.arrayBuffer()),file.type);}catch{return NextResponse.json({error:'The image file is invalid or contains unsupported SVG content.'},{status:400});}

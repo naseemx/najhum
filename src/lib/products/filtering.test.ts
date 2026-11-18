@@ -1,0 +1,10 @@
+import {it,expect} from 'vitest';
+import {matchesProduct} from './filtering';
+import type {CatalogProduct,Taxonomy} from './catalog';
+const taxonomy={categories:[{id:'energy',name:'Energy & Power'},{id:'water',name:'Water'}],groups:[{id:'conn',options:[{id:'lpwan'},{id:'cellular'}]},{id:'power',options:[{id:'battery'},{id:'mains'}]}]} as Taxonomy;
+const product=(id:string,category:string,options:string[])=>({id,slug:id,name:id,model:id,description:'Device',highlights:[],image:'',platforms:[],brochure:false,brochureUrl:null,categoryIds:[category],optionIds:options}) satisfies CatalogProduct;
+const products=[product('meter','energy',['lpwan','mains']),product('leak','water',['cellular','battery']),product('clamp','energy',['lpwan','battery'])];
+it('uses OR within a group and AND between groups',()=>{const state={query:'',category:'',selected:['lpwan','cellular','battery']};expect(products.filter(p=>matchesProduct(p,taxonomy,state)).map(p=>p.id)).toEqual(['leak','clamp']);});
+it('calculates a facet using all other groups, not its own selection',()=>{const state={query:'',category:'energy',selected:['lpwan','mains']};expect(products.filter(p=>matchesProduct(p,taxonomy,state,'power')&&p.optionIds.includes('battery')).map(p=>p.id)).toEqual(['clamp']);});
+it('category counts ignore category selection while retaining filters',()=>{const state={query:'',category:'energy',selected:['battery']};expect(products.filter(p=>matchesProduct(p,taxonomy,state,undefined,true))).toHaveLength(2);});
+it('searches model and category words together',()=>{expect(products.filter(p=>matchesProduct(p,taxonomy,{query:'energy clamp',category:'',selected:[]})).map(p=>p.id)).toEqual(['clamp']);});

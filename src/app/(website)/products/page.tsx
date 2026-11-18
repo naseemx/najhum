@@ -1,47 +1,11 @@
-import { buildMetadata, pageSchema } from "@/lib/seo";
-import { pageSeo } from "@/content/page-seo";
-import { pageSections } from "@/content/page-sections";
-import StructuredData from "@/components/seo/StructuredData";
-import { getProductClassification } from "@/lib/product-classification";
-import ProductsHero from "@/components/sections/products/ProductsHero";
-import ProductsGrid from "@/components/sections/products/ProductsGrid";
-import Cta from "@/components/sections/home/Cta";
-import { prisma } from "@/lib/db/prisma";
-
-export const dynamic = "force-dynamic";
-
-export const metadata = buildMetadata(pageSeo.products);
-
-export default async function ProductsPage() {
-  let dbProducts: Array<{
-    id: string;
-    name: string;
-    description: string;
-    imageUrl?: string | null;
-    platforms: string[];
-    solutions: string[];
-    brochureUrl?: string | null;
-    details?: unknown;
-  }> = [];
-
-  try {
-    dbProducts = await prisma.product.findMany({
-      where: {
-        isDraft: false,
-      },
-      orderBy: {
-        order: "asc",
-      },
-    });
-  } catch (error) {
-    console.error("Failed to load products from database:", error);
-  }
-
-  return (
-    <><StructuredData data={pageSchema(pageSeo.products, pageSections.products)} /><div className="flex flex-col w-full">
-      <ProductsHero />
-      <ProductsGrid initialProducts={dbProducts.map(product => ({ ...product, ...getProductClassification(product) }))} />
-      <Cta />
-    </div></>
-  );
+import {buildMetadata,pageSchema} from '@/lib/seo';
+import {pageSeo} from '@/content/page-seo';
+import StructuredData from '@/components/seo/StructuredData';
+import ProductCatalog from '@/components/products/catalog/ProductCatalog';
+import {getCatalogProducts,getTaxonomy} from '@/lib/products/catalog';
+export const dynamic='force-dynamic';
+export const metadata=buildMetadata(pageSeo.products);
+export default async function ProductsPage({searchParams}:{searchParams:Promise<{q?:string;cat?:string;filters?:string}>}){
+ const params=await searchParams;
+ try{const [products,taxonomy]=await Promise.all([getCatalogProducts(),getTaxonomy(true)]);return <><StructuredData data={pageSchema(pageSeo.products)}/><ProductCatalog products={products} taxonomy={taxonomy} initialQuery={(params.q||'').slice(0,120)} initialCategory={params.cat||''} initialOptions={(params.filters||'').split(',').filter(Boolean)}/></>;}catch(error){console.error('Product catalogue unavailable',error);return <main className="min-h-screen pt-36 px-6 max-w-6xl mx-auto"><h1 className="text-3xl font-semibold">Products</h1><p role="status" className="mt-6">The product catalogue is temporarily unavailable. Please contact our team or try again shortly.</p></main>;}
 }

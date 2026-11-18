@@ -40,6 +40,7 @@ const dummyProducts = [
 ];
 
 interface CarouselProduct {
+  slug?:string|null;
   id: string | number;
   name?: string;
   title?: string;
@@ -81,7 +82,7 @@ export default function PlatformProductsCarousel({ products = dummyProducts, tit
   const items = products.map(product => {
     const name = product.name || product.title || '';
     const slug = (product as { slug?: string }).slug || encodeURIComponent(name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')) || String(product.id);
-    return { id: product.id, title: formatProductTitle(name), description: product.description || product.desc, imageUrl: product.imageUrl, imagePlaceholder: product.imagePlaceholder, href: `/products/${slug}` };
+    return { id: product.id, title: formatProductTitle(name), description: product.description || product.desc, imageUrl: product.imageUrl, imagePlaceholder: product.imagePlaceholder, href: `/products/${product.slug||slug}` };
   });
   return <PlatformCardCarousel items={items} itemLabel="product" title={title || <>Explore Our <br className="hidden sm:block"/><span className="text-primary font-bold">Product Range</span></>} description={description}/>;
 }
