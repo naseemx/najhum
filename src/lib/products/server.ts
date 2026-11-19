@@ -7,8 +7,9 @@ import {apiErrors} from '@/lib/utils/api-error';
 import {describeAssets} from '@/lib/solution-import/asset-edits';
 import {cleanUnusedImportAssets} from '@/lib/solution-import/storage-cleanup';
 import type {ImportedDocument} from '@/lib/solution-import/types';
-import {revalidatePath} from 'next/cache';
-export function refreshProducts(...slugs:string[]){for(const path of ['/products','/admin/products','/admin/dashboard','/sitemap.xml',...slugs.map(s=>`/products/${s}`),'/platforms/iotrics','/platforms/evoltics','/platforms/cropifai'])revalidatePath(path);}
+import {revalidatePath,revalidateTag} from 'next/cache';
+import {PRODUCT_CONTENT_TAG} from '@/lib/published-content/constants';
+export function refreshProducts(...slugs:string[]){revalidateTag(PRODUCT_CONTENT_TAG,{expire:0});revalidatePath('/products/[slug]','page');for(const path of ['/products','/admin/products','/admin/dashboard','/sitemap.xml',...slugs.map(s=>`/products/${s}`),'/platforms/iotrics','/platforms/evoltics','/platforms/cropifai'])revalidatePath(path);}
 export async function saveProductImport(id:string|undefined,document:ImportedDocument,actor:string,baseRevisionId?:string){
  const result=await prisma.$transaction(async tx=>{
   let product=id?await tx.product.findUnique({where:{id}}):null;
