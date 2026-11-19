@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Trash2, Loader2, Eye, EyeOff } from "lucide-react";
+import { Trash2, Loader2, Eye, EyeOff, Pencil, ExternalLink, Plus } from "lucide-react";
 import { classificationLabels, type SolutionClassification } from '@/lib/solution-classification';
 import { toast } from "sonner";
+import styles from "./SolutionsList.module.css";
 
 interface Solution {
   id: string;
@@ -28,7 +28,6 @@ export default function SolutionsList({ initialFilter = "all" }: { initialFilter
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterType>(initialFilter);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const router = useRouter();
   const [visibilityId, setVisibilityId] = useState<string | null>(null);
   async function toggleVisibility(solution: Solution) {
     setVisibilityId(solution.id);
@@ -96,10 +95,6 @@ export default function SolutionsList({ initialFilter = "all" }: { initialFilter
 
 
 
-  const handleRowClick = (id: string) => {
-    router.push(`/admin/solutions/${id}/edit`);
-  };
-
   const filteredSolutions = solutions.filter((solution) => {
     if (filter === 'draft') return solution.isDraft;
     if (filter === 'published') return !solution.isDraft;
@@ -159,184 +154,47 @@ export default function SolutionsList({ initialFilter = "all" }: { initialFilter
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-900">
-            All Solutions ({solutions.length})
-          </h2>
-          <div className="mt-1 flex items-center gap-2 text-sm text-gray-600">
-            <span>{draftCount} draft{draftCount !== 1 ? 's' : ''}</span>
-            <span>•</span>
-            <span>{publishedCount} published</span>
-          </div>
-        </div>
-        <Link
-          href="/admin/solutions/new"
-          className="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full sm:w-auto"
-        >
-          <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-          </svg>
-          Create New Solution
-        </Link>
+    <div className={styles.workspace}>
+      <div className={styles.toolbar}>
+        <div><h2>All solutions <span>{solutions.length}</span></h2><p>{publishedCount} published · {draftCount} drafts</p></div>
+        <Link href="/admin/solutions/new" className={styles.create}><Plus size={16}/>Create solution</Link>
       </div>
-
-      <div className="border-b border-gray-200 overflow-x-auto overflow-y-hidden">
-        <nav className="flex gap-6 min-w-max px-2 pt-1">
-          <button
-            onClick={() => setFilter('all')}
-            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${filter === 'all' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
-          >
-            All
-            <span className={`ml-2 py-0.5 px-2 rounded-full text-xs font-medium ${filter === 'all' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}>
-              {solutions.length}
-            </span>
-          </button>
-          <button
-            onClick={() => setFilter('draft')}
-            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${filter === 'draft' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
-          >
-            Drafts Only
-            <span className={`ml-2 py-0.5 px-2 rounded-full text-xs font-medium ${filter === 'draft' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}>
-              {draftCount}
-            </span>
-          </button>
-          <button
-            onClick={() => setFilter('published')}
-            className={`whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ${filter === 'published' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
-          >
-            Published Only
-            <span className={`ml-2 py-0.5 px-2 rounded-full text-xs font-medium ${filter === 'published' ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'}`}>
-              {publishedCount}
-            </span>
-          </button>
-        </nav>
-      </div>
-
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        {filteredSolutions.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">
-              No {filter === 'draft' ? 'draft' : 'published'} solutions found.
-            </p>
-          </div>
-        ) : (
-          <table className="min-w-full divide-y divide-gray-200" style={{width:"100%",minWidth:1000,borderCollapse:"collapse",tableLayout:"auto"}}>
-            <thead className="bg-gray-50" style={{backgroundColor:"#f8fafc"}}>
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Title
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Slug
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Platforms
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Last Updated
-                </th>
-                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredSolutions.map((solution) => (
-                <tr
-                  key={solution.id}
-                  onClick={() => handleRowClick(solution.id)}
-                  className="hover:bg-gray-50 cursor-pointer transition-colors"
-                >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {solution.title}
-                      <span className="block text-xs font-normal text-gray-500 mt-1">{classificationLabels[solution.classification ?? 'INDUSTRY']}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-500 font-mono">
-                      /{solution.slug}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex flex-wrap gap-1">
-                      {solution.platforms && solution.platforms.length > 0 ? (
-                        solution.platforms.map((p) => {
-                          const tag =
-                            p === 'iotrics'
-                              ? { label: 'IoTRICs', style: 'bg-blue-50 text-blue-700 border-blue-200' }
-                              : p === 'evoltics'
-                              ? { label: 'EVOLTICS', style: 'bg-emerald-50 text-emerald-700 border-emerald-200' }
-                              : p === 'cropifai'
-                              ? { label: 'cropifAI', style: 'bg-amber-50 text-amber-700 border-amber-200' }
-                              : { label: p, style: 'bg-gray-50 text-gray-700 border-gray-200' };
-
-                          return (
-                            <span
-                              key={p}
-                              className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${tag.style}`}
-                            >
-                              {tag.label}
-                            </span>
-                          );
-                        })
-                      ) : (
-                        <span className="text-xs text-gray-400">—</span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {solution.isDraft ? (
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                        {solution.publishedRevisionId ? "Unpublished" : "Draft"}
-                      </span>
-                    ) : (
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Published · {solution.isListed?"Listed":"Unlisted"}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(solution.updatedAt).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" onClick={(e) => e.stopPropagation()}>
-                    <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:12,flexWrap:"wrap"}}>
-                    <Link href={`/admin/solutions/${solution.id}/edit`} className="text-sm text-blue-600 whitespace-nowrap" onClick={e=>e.stopPropagation()}>Open editor</Link>
-                    {!solution.isDraft&&<Link href={`/solutions/${solution.slug}`} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 whitespace-nowrap">Open direct link</Link>}
-                    <button type="button" onClick={()=>void toggleVisibility(solution)} disabled={visibilityId===solution.id || deletingId===solution.id || solution.isDraft} title={solution.isDraft?"Publish in the editor before listing":"Changes listing only; your published direct link remains accessible"} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-slate-600 hover:bg-slate-50 disabled:opacity-50 whitespace-nowrap">
-                      {visibilityId===solution.id?<Loader2 size={15} className="animate-spin"/>:solution.isListed?<EyeOff size={15}/>:<Eye size={15}/>}{solution.isListed?'Hide on Website':'View on Website'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={(e) => handleDelete(e, solution)}
-                      disabled={deletingId === solution.id}
-                      className="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 border border-slate-200 hover:border-red-200 transition-colors shadow-xs disabled:opacity-50 cursor-pointer"
-                      title={`Delete ${solution.title}`}
-                      aria-label={`Delete ${solution.title}`}
-                    >
-                      {deletingId === solution.id ? (
-                        <Loader2 size={16} className="animate-spin text-red-600" />
-                      ) : (
-                        <Trash2 size={16} />
-                      )}
-                    </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+      <nav className={styles.filters} aria-label="Filter solutions">
+        {([['all','All',solutions.length],['draft','Drafts',draftCount],['published','Published',publishedCount]] as const).map(([value,label,count])=><button type="button" key={value} aria-pressed={filter===value} onClick={()=>setFilter(value)} className={filter===value?styles.activeFilter:undefined}>{label}<span>{count}</span></button>)}
+      </nav>
+      {filteredSolutions.length===0?<div className={styles.empty}>No {filter==='draft'?'draft':'published'} solutions found.</div>:<div className={styles.list}>
+        {filteredSolutions.map(solution=>{
+          const published=!solution.isDraft;
+          const pending=visibilityId===solution.id||deletingId===solution.id;
+          return <article key={solution.id} className={styles.card} aria-label={solution.title}>
+            <div className={styles.cardHeader}>
+              <div className={styles.identity}>
+                <p className={styles.classification}>{classificationLabels[solution.classification??'INDUSTRY']}</p>
+                <h3><Link href={`/admin/solutions/${solution.id}/edit`}>{solution.title}</Link></h3>
+                <p className={styles.address}>/solutions/{solution.slug}</p>
+              </div>
+              <div className={styles.statuses}>
+                <span className={published?styles.published:styles.draft}>{published?'Published':solution.publishedRevisionId?'Unpublished':'Draft'}</span>
+                {published&&<span className={solution.isListed?styles.listed:styles.unlisted}>{solution.isListed?'Listed on website':'Unlisted · Direct link only'}</span>}
+              </div>
+            </div>
+            <div className={styles.metadata}>
+              <div className={styles.platforms}>{solution.platforms?.length?solution.platforms.map(platform=><span key={platform}>{({iotrics:'IoTRICs',evoltics:'EVOLTICS',cropifai:'cropifAI'} as Record<string,string>)[platform]||platform}</span>):<span className={styles.noPlatform}>No platform selected</span>}</div>
+              <p>Updated <time dateTime={solution.updatedAt}>{new Date(solution.updatedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</time></p>
+            </div>
+            <div className={styles.actions}>
+              <Link href={`/admin/solutions/${solution.id}/edit`} className={styles.edit}><Pencil size={15}/>Open editor</Link>
+              {published&&<Link href={`/solutions/${solution.slug}`} target="_blank" rel="noopener noreferrer" className={styles.action}><ExternalLink size={15}/>Open direct link</Link>}
+              <button type="button" onClick={()=>void toggleVisibility(solution)} disabled={pending||solution.isDraft} title={solution.isDraft?'Publish in the editor before listing':'Changes listing only; your published direct link remains accessible'} className={`${styles.action} ${styles.visibility}`}>
+                {visibilityId===solution.id?<Loader2 size={15} className="animate-spin"/>:solution.isListed?<EyeOff size={15}/>:<Eye size={15}/>}{visibilityId===solution.id?'Updating…':solution.isListed?'Hide on Website':'View on Website'}
+              </button>
+              <button type="button" onClick={event=>void handleDelete(event,solution)} disabled={pending} className={styles.delete} title={`Delete ${solution.title}`} aria-label={`Delete ${solution.title}`}>
+                {deletingId===solution.id?<Loader2 size={16} className="animate-spin"/>:<Trash2 size={16}/>}
+              </button>
+            </div>
+          </article>;
+        })}
+      </div>}
     </div>
   );
 }
