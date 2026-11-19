@@ -9,7 +9,7 @@ export default async function PlatformProductsServer({ platformId }: { platformI
         platforms: {
           has: platformId,
         },
-        isDraft: false,
+        isListed: true, isDraft: false,
       },
       orderBy: {
         order: "asc",

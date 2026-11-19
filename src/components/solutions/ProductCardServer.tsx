@@ -22,7 +22,7 @@ export default async function ProductCardServer({ content, solutionSlug }: Produ
       products = await prisma.product.findMany({
         where: {
           id: { in: content.productIds },
-          isDraft: false,
+          isListed: true, isDraft: false,
         },
         orderBy: { order: "asc" },
       });
@@ -30,21 +30,21 @@ export default async function ProductCardServer({ content, solutionSlug }: Produ
       products = await prisma.product.findMany({
         where: {
           solutions: { has: solutionSlug },
-          isDraft: false,
+          isListed: true, isDraft: false,
         },
         orderBy: { order: "asc" },
       });
       // Fallback if none tagged specifically to this slug
       if (products.length === 0) {
         products = await prisma.product.findMany({
-          where: { isDraft: false },
+          where: { isListed: true, isDraft: false },
           take: 6,
           orderBy: { order: "asc" },
         });
       }
     } else {
       products = await prisma.product.findMany({
-        where: { isDraft: false },
+        where: { isListed: true, isDraft: false },
         take: 6,
         orderBy: { order: "asc" },
       });

@@ -14,6 +14,7 @@ interface Solution {
   platforms?: string[];
   classification?: SolutionClassification;
   isDraft: boolean;
+  isListed: boolean;
   publishedRevisionId?: string | null;
   createdAt: string;
   updatedAt: string;
@@ -32,11 +33,11 @@ export default function SolutionsList({ initialFilter = "all" }: { initialFilter
   async function toggleVisibility(solution: Solution) {
     setVisibilityId(solution.id);
     try {
-      const response = await fetch(`/api/admin/solutions/${solution.id}/visibility`, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({visible:solution.isDraft})});
+      const response = await fetch(`/api/admin/solutions/${solution.id}/visibility`, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({visible:!solution.isListed})});
       const data = await response.json();
       if(!response.ok)throw new Error(data.error || "Could not update visibility.");
-      setSolutions(old=>old.map(item=>item.id===solution.id?{...item,isDraft:data.isDraft}:item));
-      toast.success(data.isDraft?"Solution hidden from the website.":"Last published page is visible again. Pending draft edits stay private.");
+      setSolutions(old=>old.map(item=>item.id===solution.id?{...item,isListed:data.isListed}:item));
+      toast.success(data.isListed?"Solution listed on the website.":"Solution unlisted. The direct link still works.");
     } catch(error) { toast.error(error instanceof Error?error.message:"Could not update visibility."); }
     finally {setVisibilityId(null);}
   }
@@ -292,11 +293,11 @@ export default function SolutionsList({ initialFilter = "all" }: { initialFilter
                   <td className="px-6 py-4 whitespace-nowrap">
                     {solution.isDraft ? (
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                        {solution.publishedRevisionId ? "Hidden" : "Draft"}
+                        {solution.publishedRevisionId ? "Unpublished" : "Draft"}
                       </span>
                     ) : (
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Published
+                        Published · {solution.isListed?"Listed":"Unlisted"}
                       </span>
                     )}
                   </td>
@@ -308,10 +309,11 @@ export default function SolutionsList({ initialFilter = "all" }: { initialFilter
                     })}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" onClick={(e) => e.stopPropagation()}>
-                    <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:12,flexWrap:"nowrap"}}>
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:12,flexWrap:"wrap"}}>
                     <Link href={`/admin/solutions/${solution.id}/edit`} className="text-sm text-blue-600 whitespace-nowrap" onClick={e=>e.stopPropagation()}>Open editor</Link>
-                    <button type="button" onClick={()=>void toggleVisibility(solution)} disabled={visibilityId===solution.id || deletingId===solution.id || (solution.isDraft&&!solution.publishedRevisionId)} title={solution.isDraft&&!solution.publishedRevisionId?"Publish the draft in the editor first":solution.isDraft?"Show the last published page":"Hide from the website"} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-slate-600 hover:bg-slate-50 disabled:opacity-50 whitespace-nowrap">
-                      {visibilityId===solution.id?<Loader2 size={15} className="animate-spin"/>:solution.isDraft?<Eye size={15}/>:<EyeOff size={15}/>}{solution.isDraft?'Show':'Hide'}
+                    {!solution.isDraft&&<Link href={`/solutions/${solution.slug}`} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 whitespace-nowrap">Open direct link</Link>}
+                    <button type="button" onClick={()=>void toggleVisibility(solution)} disabled={visibilityId===solution.id || deletingId===solution.id || solution.isDraft} title={solution.isDraft?"Publish in the editor before listing":"Changes listing only; your published direct link remains accessible"} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-slate-600 hover:bg-slate-50 disabled:opacity-50 whitespace-nowrap">
+                      {visibilityId===solution.id?<Loader2 size={15} className="animate-spin"/>:solution.isListed?<EyeOff size={15}/>:<Eye size={15}/>}{solution.isListed?'Hide on Website':'View on Website'}
                     </button>
                     <button
                       type="button"

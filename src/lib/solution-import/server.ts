@@ -43,5 +43,5 @@ export async function getImportSession(id:string) {
   if(!solution)return null;
   const latest=solution.revisions[0];
   const revision=latest?await prisma.solutionRevision.findUnique({where:{id:latest.id}}):null;
-  return {id:solution.id,publishedSlug:solution.slug,isDraft:solution.isDraft,publishedRevisionId:solution.publishedRevisionId,baseRevisionId:latest?.id||'',document:revision?describeAssets(revision.document as unknown as ImportedDocument):null,revisions:solution.revisions.map(r=>({...r,createdAt:r.createdAt.toISOString()}))};
+  return {id:solution.id,publishedSlug:solution.slug,isDraft:solution.isDraft,isListed:solution.isListed,publishedRevisionId:solution.publishedRevisionId,baseRevisionId:latest?.id||'',document:revision?describeAssets(revision.document as unknown as ImportedDocument):null,revisions:solution.revisions.map(r=>({...r,createdAt:r.createdAt.toISOString()}))};
 }

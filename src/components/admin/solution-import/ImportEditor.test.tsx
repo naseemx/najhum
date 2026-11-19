@@ -48,7 +48,8 @@ it('publishes a saved draft without opening a preview',async()=>{
  await click('Publish draft');
  expect(open).not.toHaveBeenCalled();
  expect(fetchMock).toHaveBeenCalledWith('/api/admin/solutions/solution/revisions',expect.objectContaining({method:'POST',body:JSON.stringify({revisionId:'r1'})}));
- expect(container.textContent).toContain('Your page is live.');
+ expect(container.textContent).toContain('Published as unlisted');
+ expect(container.textContent).toContain('View on Website');
  open.mockRestore();
 });
 
@@ -57,4 +58,17 @@ it('uses the same four-step upload editor for portfolio projects',async()=>{
  expect(container.textContent).toContain('Edit project');expect(container.textContent).toContain('Client name');expect(container.textContent).not.toContain('Menu icon');
  await act(async()=>container.querySelectorAll<HTMLButtonElement>('[role="tab"]')[3].click());
  expect(button('Publish draft').disabled).toBe(false);expect(container.textContent).toContain('/portfolio/cold-storage');
+});
+
+it('changes listing independently while keeping the published direct link available',async()=>{
+ const live={...session,isDraft:false,isListed:true,publishedRevisionId:'r1'};
+ fetchMock.mockResolvedValue(new Response(JSON.stringify({isListed:false}),{status:200}));
+ await act(async()=>root.render(<ImportEditor initialSession={live}/>));
+ await act(async()=>container.querySelectorAll<HTMLButtonElement>('[role="tab"]')[3].click());
+ await click('Hide on Website');
+ expect(fetchMock).toHaveBeenCalledWith('/api/admin/solutions/solution/visibility',expect.objectContaining({method:'POST',body:JSON.stringify({visible:false})}));
+ expect(container.textContent).toContain('Website listing: Hidden');
+ expect(container.querySelector('a[href="/solutions/cold-storage"][target="_blank"]')).not.toBeNull();
+ expect(button('Unpublish')).toBeDefined();
+ expect(button('View on Website')).toBeDefined();
 });

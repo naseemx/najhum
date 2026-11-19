@@ -6,10 +6,11 @@ import {ArrowLeft,ArrowRight,Check,CheckCircle2,AlertCircle,Upload,FileCode2,X,S
 import {metadataSchema,MAX_UPLOAD,type ImportedDocument,type ImportMetadata} from '@/lib/solution-import/types';
 import {classificationLabels} from '@/lib/solution-classification';
 import ImageField from './ImageField';
+import WebsiteListingControl from '@/components/admin/WebsiteListingControl';
 import {ProductClassification,ProductDownloads} from '@/components/admin/products/ProductFields';
 import styles from './ImportEditor.module.css';
 
-export type ImportSession={metadata?:ImportMetadata;publishedSlug?:string;id:string;isDraft:boolean;publishedRevisionId:string|null;baseRevisionId:string;document:ImportedDocument|null;revisions:{id:string;number:number;createdAt:string}[]};
+export type ImportSession={metadata?:ImportMetadata;publishedSlug?:string;id:string;isDraft:boolean;isListed?:boolean;publishedRevisionId:string|null;baseRevisionId:string;document:ImportedDocument|null;revisions:{id:string;number:number;createdAt:string}[]};
 const blank:ImportMetadata={title:'',slug:'',seoTitle:'',metaDescription:'',menuDescription:'',menuIcon:'snowflake',coverImage:'',socialImage:'',socialImageAlt:'',classification:'INDUSTRY',platforms:[],productIds:[]};
 const steps=[['Details','Name and navigation'],['Page & images','HTML, ZIP and media'],['SEO & links','Search and platforms'],['Preview & publish','Review and go live']];
 const icons=['snowflake','building','factory','bolt','leaf','warehouse'];
@@ -86,7 +87,7 @@ export default function ImportEditor({initialSession,kind='solutions'}:{initialS
   setBusy(true);setOperation('Publishing…');setError('');
   try{
    const response=await fetch(`${apiRoot}/${saved.id}/revisions`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({revisionId:revision})});const data=await response.json();if(!response.ok)throw new Error(data.error||'Could not publish.');
-   setSession({...saved,isDraft:false,publishedRevisionId:revision});setChosen(revision);setMessage(`Your page is live. Your page is available at ${publicRoot}/${data.slug}.`);router.refresh();
+   setSession({...saved,isDraft:false,publishedRevisionId:revision});setChosen(revision);setMessage(portfolio?`Your page is live. ${publicRoot}/${data.slug}`:`Published ${saved.isListed?'and listed on the website':'as unlisted — accessible by direct link'}. ${publicRoot}/${data.slug}`);router.refresh();
   }catch(e){setError(e instanceof Error?e.message:'Could not publish.');}finally{setBusy(false);setOperation('');}
  }
  async function unpublish(){if(!session)return;setBusy(true);setError('');try{const response=await fetch(`${apiRoot}/${session.id}/unpublish`,{method:'POST'});if(!response.ok)throw new Error('Could not unpublish.');setSession({...session,isDraft:true});setMessage('The page is unpublished. Your working draft and last published page are retained.');router.refresh();}catch(e){setError(e instanceof Error?e.message:'Could not unpublish.');}finally{setBusy(false);}}
@@ -134,7 +135,8 @@ export default function ImportEditor({initialSession,kind='solutions'}:{initialS
      {previewStatus!=='empty'&&<p role="status" className={previewStatus==='error'?styles.previewError:previewStatus==='ready'?styles.previewReady:''}>{previewStatus==='loading'?'Opening preview…':previewStatus==='ready'?'Preview opened in a new tab.':previewError}</p>}</div>
      <button type="button" className={styles.secondary} disabled={busy||!session?.document} onClick={showPreview}><Eye size={16}/>Preview<ExternalLink size={13}/></button>
     </div>
-    {session&&!session.isDraft&&<div className={styles.liveActions}><Link href={`${publicRoot}/${session.publishedSlug||session.document?.metadata.slug||meta.slug}`} target="_blank" className={styles.link}>View live page <ExternalLink size={12}/></Link><button type="button" disabled={busy} onClick={unpublish} className={styles.dangerLink}>Unpublish</button></div>}
+    {!portfolio&&<div className={styles.publishActions}><div><strong>Website listing: {session?.isListed&&!session?.isDraft?'Visible':'Hidden'}</strong><p>Publish makes your direct link accessible. View on Website also lists the page in menus, search and cards. Hide on Website keeps the direct link working. Unpublish disables public access.</p>{(!session||session.isDraft)&&<p>Publish first, then enable View on Website if you want the page listed.</p>}</div>{session&&!session.isDraft&&<WebsiteListingControl id={session.id} kind={product?'products':'solutions'} isListed={!!session.isListed} onChange={isListed=>setSession({...session,isListed})}/>}</div>}
+    {session&&!session.isDraft&&<div className={styles.liveActions}><Link href={`${publicRoot}/${session.publishedSlug||session.document?.metadata.slug||meta.slug}`} target="_blank" className={styles.link}>Open direct link <ExternalLink size={12}/></Link><button type="button" disabled={busy} onClick={unpublish} className={styles.dangerLink}>Unpublish</button></div>}
    </>}
 
   </div>

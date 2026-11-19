@@ -62,5 +62,5 @@ export async function publishProductImport(id:string,revisionId:string){
 export async function getProductImportSession(id:string){
  const product=await prisma.product.findUnique({where:{id},include:{revisions:{orderBy:{number:'desc'},take:1}}});
  if(!product)return null;const draft=product.revisions[0];
- return {id:product.id,publishedSlug:product.slug||product.id,isDraft:product.isDraft,publishedRevisionId:product.publishedRevisionId,baseRevisionId:draft?.id||'',document:draft?describeAssets(draft.document as unknown as ImportedDocument):null,revisions:draft?[{id:draft.id,number:draft.number,createdAt:draft.createdAt.toISOString()}]:[]};
+ return {id:product.id,publishedSlug:product.slug||product.id,isDraft:product.isDraft,isListed:product.isListed,publishedRevisionId:product.publishedRevisionId,baseRevisionId:draft?.id||'',document:draft?describeAssets(draft.document as unknown as ImportedDocument):null,revisions:draft?[{id:draft.id,number:draft.number,createdAt:draft.createdAt.toISOString()}]:[]};
 }

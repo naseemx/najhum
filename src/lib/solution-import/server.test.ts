@@ -20,6 +20,7 @@ it('publishes the latest draft and removes the superseded live copy',async()=>{
  m.revision.findFirst.mockResolvedValue({id:'draft',document:doc});m.revision.findMany.mockResolvedValue([{id:'live',document:doc}]);
  await publishImport('solution','draft');
  expect(m.solution.update).toHaveBeenCalledWith(expect.objectContaining({data:expect.objectContaining({slug:'cold-storage',publishedRevisionId:'draft',isDraft:false})}));
+ expect(m.solution.update.mock.calls[0][0].data).not.toHaveProperty('isListed');
  expect(m.revision.deleteMany).toHaveBeenCalledWith({where:{solutionId:'solution',id:{not:'draft'}}});expect(m.cleanup).toHaveBeenCalledWith([doc]);
 });
 it('rejects publishing a draft which another administrator has replaced',async()=>{

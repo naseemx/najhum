@@ -18,7 +18,7 @@ export default async function SolutionProductsServer({
       solutions: {
         has: solutionSlug,
       },
-      isDraft: false,
+      isListed: true, isDraft: false,
     },
     orderBy: {
       order: "asc",

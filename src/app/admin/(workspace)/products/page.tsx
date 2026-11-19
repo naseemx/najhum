@@ -1,4 +1,4 @@
-import PortfolioVisibilityButton from '@/components/admin/PortfolioVisibilityButton';
+import WebsiteListingControl from '@/components/admin/WebsiteListingControl';
 import Link from 'next/link';
 import { prisma } from '@/lib/db/prisma';
 import { Plus, Edit2, Package, Tag } from 'lucide-react';
@@ -14,6 +14,8 @@ export default async function ProductsList() {
     imageUrl?: string | null;
     brochureUrl?: string | null;
     isDraft?: boolean;
+    isListed: boolean;
+    slug: string | null;
     platforms: string[];
     createdAt: Date;
   }> = [];
@@ -58,7 +60,7 @@ export default async function ProductsList() {
                 <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                   product.isDraft ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
                 }`}>
-                  {product.isDraft ? 'Draft' : 'Published'}
+                  {product.isDraft ? 'Draft' : product.isListed?'Published · Listed':'Published · Unlisted'}
                 </span>
                 {product.brochureUrl && (
                   <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
@@ -93,7 +95,7 @@ export default async function ProductsList() {
               </div>
             </div>
             
-            <div className="flex items-center gap-2 border-t border-slate-100 bg-slate-50/50 p-3 rounded-b-xl"><PortfolioVisibilityButton id={product.id} kind="products" hidden={!!product.isDraft}/>
+            <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 bg-slate-50/50 p-3 rounded-b-xl">{!product.isDraft&&<><WebsiteListingControl id={product.id} kind="products" isListed={product.isListed}/><Link href={`/products/${product.slug||product.id}`} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600">Open direct link</Link></>}
               <Link
                 href={`/admin/products/${product.id}/edit`}
                 className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-colors"

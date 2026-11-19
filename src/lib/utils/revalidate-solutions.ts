@@ -6,6 +6,8 @@ export function revalidateSolutions(slug?: string) {
   revalidateTag(SOLUTION_CONTENT_TAG,{expire:0});
   revalidatePath('/solutions/[slug]','page');
   if (slug) revalidatePath(`/solutions/${slug}`);
+  revalidatePath('/', 'layout');
+  revalidatePath('/admin/solutions');
   revalidatePath('/solutions');
   for (const platform of ['iotrics', 'evoltics', 'cropifai']) revalidatePath(`/platforms/${platform}`);
   revalidatePath('/sitemap.xml');

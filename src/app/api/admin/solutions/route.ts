@@ -70,6 +70,7 @@ export async function GET(request: NextRequest) {
       platforms: solution.platforms,
       classification: solution.classification,
       isDraft: solution.isDraft,
+      isListed: solution.isListed,
       publishedRevisionId: solution.publishedRevisionId,
       createdAt: solution.createdAt.toISOString(),
       updatedAt: solution.updatedAt.toISOString(),

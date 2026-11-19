@@ -15,12 +15,13 @@ export async function POST(request:NextRequest,{params}:{params:Promise<{id:stri
    const solution=await tx.solution.findUnique({where:{id}});
    if(!solution)throw apiErrors.notFound();
    if(visible){
+    if(solution.isDraft)throw apiErrors.badRequest("Publish the page before listing it on the website.");
     const live=solution.publishedRevisionId?await tx.solutionRevision.findFirst({where:{id:solution.publishedRevisionId,solutionId:id}}):null;
-    if(!live)throw apiErrors.badRequest('Preview and publish the draft in the editor first.');
+    if(!live)throw apiErrors.badRequest('Publish the draft in the editor first.');
    }
-   return tx.solution.update({where:{id},data:{isDraft:!visible}});
+   return tx.solution.update({where:{id},data:{isListed:visible}});
   },{isolationLevel:Prisma.TransactionIsolationLevel.Serializable});
   revalidateSolutions(saved.slug);
-  return NextResponse.json({isDraft:saved.isDraft});
+  return NextResponse.json({isListed:saved.isListed});
  }catch(error){return handleApiError(error);}
 }

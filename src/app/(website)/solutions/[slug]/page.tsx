@@ -12,7 +12,7 @@ export async function generateMetadata({params}:{params:Promise<{slug:string}>})
  const m=result.document.metadata,path=`/solutions/${result.slug}`;
  const base=buildMetadata({title:m.seoTitle,description:m.metaDescription,path,image:m.socialImage||m.coverImage});
  // The CMS SEO title is exact; do not append Najhum a second time.
- return {...base,title:{absolute:m.seoTitle},openGraph:{...base.openGraph,title:m.seoTitle,images:m.socialImage?[{url:new URL(m.socialImage,process.env.NEXT_PUBLIC_APP_URL||'https://najhumgroup.com').href,width:1200,height:630,alt:m.socialImageAlt||m.title}]:base.openGraph?.images},twitter:{...base.twitter,title:m.seoTitle}};
+ return {...base,...(!result.isListed?{robots:{index:false,follow:true}}:{}),title:{absolute:m.seoTitle},openGraph:{...base.openGraph,title:m.seoTitle,images:m.socialImage?[{url:new URL(m.socialImage,process.env.NEXT_PUBLIC_APP_URL||'https://najhumgroup.com').href,width:1200,height:630,alt:m.socialImageAlt||m.title}]:base.openGraph?.images},twitter:{...base.twitter,title:m.seoTitle}};
 }
 export default async function SolutionPage({params}:{params:Promise<{slug:string}>}){
  const result=await published((await params).slug);if(!result)notFound();
