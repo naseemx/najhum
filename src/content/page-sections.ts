@@ -182,46 +182,70 @@ export const pageSections = {
   ],
   "cropifai": [
     {
-      "id": "cropifai-hero",
-      "name": "cropif AI Hero"
+        "id": "cropifai-hero",
+        "name": "Precision agritech. Climate AI."
     },
     {
-      "id": "cropifai-about",
-      "name": "cropif AI About"
+        "id": "njcr-tour",
+        "name": "Interactive farm tour"
     },
     {
-      "id": "cropifai-architecture",
-      "name": "cropif AI Architecture"
+        "id": "cropifai-trust",
+        "name": "Trusted on site"
     },
     {
-      "id": "solutions",
-      "name": "cropif AI Solutions"
+        "id": "cropifai-impact",
+        "name": "Field impact"
     },
     {
-      "id": "cropifai-interface",
-      "name": "cropif AI Interface"
+        "id": "cropifai-architecture",
+        "name": "Sense. Think. Act."
     },
     {
-      "id": "cropifai-hardware",
-      "name": "Our Smart Ecosystem"
+        "id": "cropifai-hardware",
+        "name": "The hardware family"
     },
     {
-      "id": "nqt02",
-      "name": "Najhum Wireless Smart Valve NQT02"
+        "id": "nqt02",
+        "name": "Najhum wireless smart valve"
     },
     {
-      "id": "cropifai-why-choose",
-      "name": "cropif AI Why Choose"
+        "id": "cropifai-ecosystem",
+        "name": "Add the whole farm"
     },
     {
-      "id": "cropifai-faq",
-      "name": "cropif AI Faq"
+        "id": "cropifai-interface",
+        "name": "Try cropifAI"
     },
     {
-      "id": "contact",
-      "name": "cropif AI Cta"
+        "id": "cropifai-intelligence",
+        "name": "Decisions, not just data"
+    },
+    {
+        "id": "cropifai-connectivity",
+        "name": "Off-grid connectivity"
+    },
+    {
+        "id": "cropifai-crops",
+        "name": "Built for every crop"
+    },
+    {
+        "id": "cropifai-savings",
+        "name": "Water savings calculator"
+    },
+    {
+        "id": "cropifai-rollout",
+        "name": "From survey to autonomous irrigation"
+    },
+    {
+        "id": "cropifai-faq",
+        "name": "Questions"
+    },
+    {
+        "id": "contact",
+        "name": "Book a cropifAI demo"
     }
-  ],
+],
   "solutions": [
     {
       "id": "solutions-catalog",

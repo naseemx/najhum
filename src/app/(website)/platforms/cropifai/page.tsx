@@ -1,47 +1,32 @@
-import { buildMetadata, pageSchema } from "@/lib/seo";
-import { pageSeo } from "@/content/page-seo";
-import { pageSections } from "@/content/page-sections";
-import styles from "./CropifaiTheme.module.css";
-import StructuredData from "@/components/seo/StructuredData";
-import CropifaiHero from "@/components/sections/cropifai/CropifaiHero";
-import CropifaiAbout from "@/components/sections/cropifai/CropifaiAbout";
-import CropifaiArchitecture from "@/components/sections/cropifai/CropifaiArchitecture";
-import CropifaiInterface from "@/components/sections/cropifai/CropifaiInterface";
-import CropifaiWorkflow from "@/components/sections/cropifai/CropifaiWorkflow";
-import CropifaiHardware from "@/components/sections/cropifai/CropifaiHardware";
-import CropifaiWaterFlow from "@/components/sections/cropifai/CropifaiWaterFlow";
-import CropifaiSolutions from "@/components/sections/cropifai/CropifaiSolutions";
-import CropifaiWhyChoose from "@/components/sections/cropifai/CropifaiWhyChoose";
-import CropifaiImpact from "@/components/sections/cropifai/CropifaiImpact";
-import PlatformProductsServer from "@/components/shared/PlatformProductsServer";
-import PlatformSolutionsServer from "@/components/shared/PlatformSolutionsServer";
+import {buildMetadata,pageSchema} from '@/lib/seo';
+import {pageSeo} from '@/content/page-seo';
+import {pageSections} from '@/content/page-sections';
+import StructuredData from '@/components/seo/StructuredData';
+import CropifaiFrame from '@/components/sections/cropifai/redesign/CropifaiFrame';
+import Hero from '@/components/sections/cropifai/redesign/Hero';
+import FarmTour from '@/components/sections/cropifai/redesign/FarmTour';
+import TrustedSites from '@/components/sections/cropifai/redesign/TrustedSites';
+import Impact from '@/components/sections/cropifai/redesign/Impact';
+import Workflow from '@/components/sections/cropifai/redesign/Workflow';
+import HardwareRail from '@/components/sections/cropifai/redesign/HardwareRail';
+import ValveDemo from '@/components/sections/cropifai/redesign/ValveDemo';
+import SensorHub from '@/components/sections/cropifai/redesign/SensorHub';
+import DashboardDemo from '@/components/sections/cropifai/redesign/DashboardDemo';
+import Intelligence from '@/components/sections/cropifai/redesign/Intelligence';
+import Connectivity from '@/components/sections/cropifai/redesign/Connectivity';
+import CropExplorer from '@/components/sections/cropifai/redesign/CropExplorer';
+import WaterCalculator from '@/components/sections/cropifai/redesign/WaterCalculator';
+import Rollout from '@/components/sections/cropifai/redesign/Rollout';
+import Questions from '@/components/sections/cropifai/redesign/Questions';
+import Contact from '@/components/sections/cropifai/redesign/Contact';
 
-import CropifaiClients from "@/components/sections/cropifai/CropifaiClients";
-import CropifaiFaq from "@/components/sections/cropifai/CropifaiFaq";
-import CropifaiCta from "@/components/sections/cropifai/CropifaiCta";
-
-
-export const metadata = buildMetadata(pageSeo.cropifai);
-
-export default function CropifaiPage() {
-  return (
-    <><StructuredData data={pageSchema(pageSeo.cropifai, pageSections.cropifai, { "@type": "SoftwareApplication", name: "cropifAI", applicationCategory: "BusinessApplication", operatingSystem: "Web", url: pageSeo.cropifai.path, provider: { "@type": "Organization", name: "Najhum Technologies LLC" } })} /><div className={`flex flex-col w-full ${styles.page}`}>
-      <CropifaiHero />
-      <CropifaiAbout />
-      <CropifaiArchitecture />
-      <CropifaiSolutions />
-      <CropifaiInterface />
-      {/* <PlatformProductsServer platformId="cropifai" /> */}
-      {/* <PlatformSolutionsServer platformId="cropifai" /> */}
-      <CropifaiHardware />
-      <CropifaiWaterFlow />
-      {/* <CropifaiWorkflow /> */}
-      <CropifaiWhyChoose />
-      {/* <CropifaiImpact /> */}
-
-      {/* <CropifaiClients /> */}
-      <CropifaiFaq />
-      <CropifaiCta />
-    </div></>
-  );
+export const metadata=buildMetadata(pageSeo.cropifai);
+export default function CropifaiPage(){
+ return <>
+  <StructuredData data={pageSchema(pageSeo.cropifai,pageSections.cropifai,{'@type':'SoftwareApplication',name:'cropifAI',applicationCategory:'BusinessApplication',operatingSystem:'Web',url:pageSeo.cropifai.path,provider:{'@type':'Organization',name:'Najhum Technologies LLC'}})} />
+  <CropifaiFrame>
+   <Hero /><FarmTour /><TrustedSites /><Impact /><Workflow /><HardwareRail /><ValveDemo /><SensorHub />
+   <DashboardDemo /><Intelligence /><Connectivity /><CropExplorer /><WaterCalculator /><Rollout /><Questions /><Contact />
+  </CropifaiFrame>
+ </>;
 }
