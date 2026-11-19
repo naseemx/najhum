@@ -37,3 +37,7 @@ it("fails closed if Cloudflare is unavailable", async () => {
   fetchMock.mockResolvedValue(new Response("Unavailable", { status: 503 }));
   expect((await verifyTurnstileToken("token")).success).toBe(false);
 });
+it("identifies a rejected server secret as a deployment configuration error", async () => {
+  fetchMock.mockResolvedValue(new Response(JSON.stringify({ success: false, "error-codes": ["invalid-input-secret"] })));
+  expect(await verifyTurnstileToken("token")).toMatchObject({ success: false, errorCodes: ["configuration-error", "invalid-input-secret"] });
+});

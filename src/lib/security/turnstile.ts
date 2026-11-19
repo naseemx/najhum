@@ -95,10 +95,16 @@ export async function verifyTurnstileToken(
         hostname: data.hostname,
       });
 
+      const codes = data["error-codes"] || [];
+      if (codes.some(code => code === "invalid-input-secret" || code === "missing-input-secret")) {
+        return { success: false, error: "Security verification is unavailable. Please contact us by email.", errorCodes: ["configuration-error", ...codes] };
+      }
       return {
         success: false,
-        error: "Security verification failed. Please refresh and try again.",
-        errorCodes: data["error-codes"],
+        error: codes.includes("timeout-or-duplicate")
+          ? "Security verification expired. Please retry verification and submit again."
+          : "Security verification failed. Please retry verification and submit again.",
+        errorCodes: codes,
       };
     }
 

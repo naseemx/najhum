@@ -391,7 +391,8 @@ export default function ContactForm() {
                     }}
                     onExpire={() => {
                       setTurnstileToken("");
-                      setTurnstileError("Security verification expired. Please verify again.");
+                      // Renewal is automatic; an expired token is never submitted.
+                      setTurnstileError("");
                     }}
                     onError={(msg) => {
                       setTurnstileToken("");
