@@ -30,7 +30,7 @@ export function MobileNav({ onSearch, solutions = [] }: { onSearch: () => void; 
 
   const logo = <Image src="/logo/logo.png" alt="Najhum" width={130} height={44} priority className="h-8 w-auto object-contain" />;
   return <>
-    <header className="fixed top-3.5 sm:top-4 left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2.5rem)] max-w-xl z-50 flex items-center justify-between bg-white rounded-full border border-neutral-200 shadow-[0_8px_30px_rgb(0,0,0,0.07)] h-16 pl-6 pr-3">
+    <header data-site-header className="fixed top-3.5 sm:top-4 left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2.5rem)] max-w-xl z-50 flex items-center justify-between bg-white rounded-full border border-neutral-200 shadow-[0_8px_30px_rgb(0,0,0,0.07)] h-16 pl-6 pr-3">
       <Link href="/" aria-label="Najhum Home">{logo}</Link>
       <div className="flex items-center gap-2"><button type="button" aria-label="Search the website" aria-haspopup="dialog" onClick={onSearch} className={styles.iconButton}><Search size={19} /></button><button type="button" aria-label="Open menu" aria-expanded={isOpen} aria-controls="mobile-navigation" onClick={() => setIsOpen(true)} className={styles.iconButton}><Menu size={20} /></button></div>
     </header>

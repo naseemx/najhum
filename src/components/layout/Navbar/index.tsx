@@ -65,6 +65,7 @@ export default function Navbar() {
     <>
       {/* ── Desktop Navigation (lg and up) ── */}
       <header
+        data-site-header
         className={cn(
           "hidden lg:block fixed top-0 inset-x-0 z-50 w-full transition-all duration-300 border-b",
           isScrolled || solutionDetail
