@@ -27,7 +27,7 @@ export default function ValveDemo() {
     <em>{"Open, close or hold any position from 0 to 100%."}</em>
     </span>
     </li>
-    <li className={"nq-pin"} style={{ "left": "56%", "top": "78%" } as CSSProperties}>
+    <li className={"nq-pin nq-pin-flow"}>
     <i>{"3"}</i>
     <span>
     <b>{"Integrated ultrasonic flow meter"}</b>
